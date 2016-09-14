@@ -2,6 +2,7 @@ use unicode_segmentation::UnicodeSegmentation;
 use std::io;
 use std::mem;
 
+/// Wraps a `char`-oriented reader and yields the data one Unicode grapheme cluster at a time.
 pub struct Graphemes<R: Iterator<Item = io::Result<char>>> {
     input: R,
     buffer: String,

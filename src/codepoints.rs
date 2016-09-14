@@ -1,6 +1,8 @@
 use std::io;
 use std::str;
 
+/// Wraps a byte-oriented reader and yields the UTF-8 data one code point at a time.
+/// Any UTF-8 parsing errors are raised as `io::Error` with `ErrorKind::InvalidData`.
 pub struct CodePoints<R: Iterator<Item = io::Result<u8>>> {
     input: R,
     buffer: Vec<u8>,
