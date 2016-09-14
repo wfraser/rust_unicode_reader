@@ -1,0 +1,7 @@
+[package]
+name = "unicode_reader"
+version = "0.1.0"
+authors = ["William R. Fraser <wfraser@codewise.org>"]
+
+[dependencies]
+unicode-segmentation = "0.1"
