@@ -1,4 +1,4 @@
 TODO:
-    - documentation
+    - allow CodePoints to continue reading past a UTF-8 parse error
     - tests
     - publish
