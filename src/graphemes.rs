@@ -8,17 +8,14 @@ pub struct Graphemes<R: Iterator<Item = io::Result<char>>> {
     buffer: String,
 }
 
-impl<R: Iterator<Item = io::Result<char>>> From<R> for Graphemes<R> {
-    fn from(input: R) -> Graphemes<R> {
-        Graphemes {
-            input: input,
-            buffer: String::new(),
-        }
-    }
-}
-
 impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
+    /// The type of the elements being iterated over: a `io::Result` with one Unicode grapheme
+    /// cluster, or any I/O error raised by the underlying reader.
     type Item = io::Result<String>;
+
+    /// Get the next grapheme cluster from the stream. Note that because grapheme clusters are of
+    /// indeterminate length, this has to read the underlying reader until the *next* cluster
+    /// starts before it can return a grapheme.
     fn next(&mut self) -> Option<Self::Item> {
         loop {
             match self.input.next() {
@@ -54,6 +51,15 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
                 self.buffer = unsafe { self.buffer.slice_unchecked(length, self.buffer.len()) }.to_owned();
                 return Some(Ok(grapheme));
             }
+        }
+    }
+}
+
+impl<R: Iterator<Item = io::Result<char>>> From<R> for Graphemes<R> {
+    fn from(input: R) -> Graphemes<R> {
+        Graphemes {
+            input: input,
+            buffer: String::new(),
         }
     }
 }

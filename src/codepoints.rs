@@ -8,17 +8,16 @@ pub struct CodePoints<R: Iterator<Item = io::Result<u8>>> {
     buffer: Vec<u8>,
 }
 
-impl<R: Iterator<Item = io::Result<u8>>> From<R> for CodePoints<R> {
-    fn from(input: R) -> CodePoints<R> {
-        CodePoints {
-            input: input,
-            buffer: vec![],
-        }
-    }
-}
-
 impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
+    /// The type of the elements being iterated over: a `io::Result` with one Unicode code point
+    /// (as a `char`), or any I/O error raised by the underlying reader, or any error encountered
+    /// while trying to parse the byte stream as UTF-8.
     type Item = io::Result<char>;
+
+    /// Get the next Unicode code point from the stream. Any malformed UTF-8 data will be returned
+    /// as an `io::Error` with `ErrorKind::InvalidData`, including if the stream reaches EOF before
+    /// a complete code point is read (which is returned as `ErrorKind::UnexpectedEof`). Any I/O
+    /// error raised by the underlying stream will be returned as well.
     fn next(&mut self) -> Option<Self::Item> {
         loop {
             match self.input.next() {
@@ -29,7 +28,7 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                     if self.buffer.is_empty() {
                         return None;
                     } else {
-                        return Some(Err(io::Error::new(io::ErrorKind::InvalidData, "invalid utf8 at end of stream")));
+                        return Some(Err(io::Error::new(io::ErrorKind::UnexpectedEof, "incomplete utf-8 code point at end of stream")));
                     }
                 },
                 Some(Err(e)) => {
@@ -58,6 +57,15 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                 self.buffer.clear();
                 return Some(Ok(codepoint));
             }
+        }
+    }
+}
+
+impl<R: Iterator<Item = io::Result<u8>>> From<R> for CodePoints<R> {
+    fn from(input: R) -> CodePoints<R> {
+        CodePoints {
+            input: input,
+            buffer: vec![],
         }
     }
 }
