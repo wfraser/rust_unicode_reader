@@ -6,7 +6,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use std::error::Error;
+use std::fmt;
 use std::io;
+use std::mem;
 use std::str;
 
 /// Wraps a byte-oriented reader and yields the UTF-8 data one code point at a time.
@@ -28,6 +31,55 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
     /// error raised by the underlying stream will be returned as well.
     fn next(&mut self) -> Option<Self::Item> {
         loop {
+            if !self.buffer.is_empty() {
+                // See if we have a valid codepoint.
+                let maybe_codepoint = match str::from_utf8(&self.buffer) {
+                    Ok(s) => {
+                        let mut chars = s.chars();
+                        let c = chars.next().unwrap();
+                        assert!(chars.next().is_none(),
+                            "unexpectedly got >1 code point at a time!");
+                        Ok(Some(c))
+                    },
+                    Err(e) => {
+                        if self.buffer.len() - e.valid_up_to() >= 4 {
+                            // If we have 4 bytes that still don't make up a valid code point, then
+                            // we have garbage.
+                            Err(())
+                        } else {
+                            // We probably have a partial code point. Keep reading bytes to find
+                            // out.
+                            Ok(None)
+                        }
+                    },
+                };
+                match maybe_codepoint {
+                    Ok(Some(codepoint)) => {
+                        self.buffer.clear();
+                        return Some(Ok(codepoint));
+                    },
+                    Err(()) => {
+                        // We have bad data in the buffer. Remove leading bytes until either the
+                        // buffer is empty, or we have a valid code point.
+                        let mut badbytes: Vec<u8> = vec![];
+                        loop {
+                            self.buffer = {
+                                let (first, rest) = self.buffer.split_first().unwrap();
+                                badbytes.push(*first);
+                                rest.to_owned()
+                            };
+                            if self.buffer.is_empty() || str::from_utf8(&self.buffer).is_ok() {
+                                break;
+                            }
+                        }
+                        // Raise the error. If we still have data in the buffer, it will be
+                        // returned on the next loop.
+                        return Some(Err(io::Error::new(io::ErrorKind::InvalidData,
+                                BadUtf8Error { bytes: badbytes })));
+                    },
+                    Ok(None) => (),
+                }
+            }
             match self.input.next() {
                 Some(Ok(byte)) => {
                     self.buffer.push(byte);
@@ -36,34 +88,14 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                     if self.buffer.is_empty() {
                         return None;
                     } else {
-                        return Some(Err(io::Error::new(io::ErrorKind::UnexpectedEof, "incomplete utf-8 code point at end of stream")));
+                        // Invalid utf-8 at end of stream.
+                        return Some(Err(io::Error::new(io::ErrorKind::UnexpectedEof,
+                            BadUtf8Error { bytes: mem::replace(&mut self.buffer, vec![]) })));
                     }
                 },
                 Some(Err(e)) => {
                     return Some(Err(e));
                 },
-            }
-            let maybe_codepoint = match str::from_utf8(&self.buffer) {
-                Ok(s) => {
-                    let mut chars = s.chars();
-                    let c = chars.next().unwrap();
-                    assert!(chars.next().is_none(), "unexpectedly got >1 code point at a time!");
-                    Some(c)
-                },
-                Err(e) => {
-                    if self.buffer.len() - e.valid_up_to() >= 4 {
-                        // If we have 4 bytes that still don't make up a valid code point, then we
-                        // have garbage.
-                        return Some(Err(io::Error::new(io::ErrorKind::InvalidData, e)));
-                    } else {
-                        // We probably have a partial code point. Keep reading bytes to find out.
-                        None
-                    }
-                },
-            };
-            if let Some(codepoint) = maybe_codepoint {
-                self.buffer.clear();
-                return Some(Ok(codepoint));
             }
         }
     }
@@ -75,5 +107,24 @@ impl<R: Iterator<Item = io::Result<u8>>> From<R> for CodePoints<R> {
             input: input,
             buffer: vec![],
         }
+    }
+}
+
+/// An error raised when parsing a UTF-8 byte stream fails.
+#[derive(Debug)]
+pub struct BadUtf8Error {
+    /// The bytes that could not be parsed as a code point.
+    pub bytes: Vec<u8>,
+}
+
+impl Error for BadUtf8Error {
+    fn description(&self) -> &str {
+        "BadUtf8Error"
+    }
+}
+
+impl fmt::Display for BadUtf8Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Bad UTF-8: {:?}", self.bytes)
     }
 }
