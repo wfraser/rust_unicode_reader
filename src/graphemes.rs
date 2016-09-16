@@ -14,6 +14,7 @@ use std::mem;
 pub struct Graphemes<R: Iterator<Item = io::Result<char>>> {
     input: R,
     buffer: String,
+    pending_error: Option<io::Error>,
 }
 
 impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
@@ -25,6 +26,9 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
     /// indeterminate length, this has to read the underlying reader until the *next* cluster
     /// starts before it can return a grapheme.
     fn next(&mut self) -> Option<Self::Item> {
+        if let Some(err) = self.pending_error.take() {
+            return Some(Err(err));
+        }
         loop {
             match self.input.next() {
                 Some(Ok(codepoint)) => {
@@ -38,7 +42,14 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
                     }
                 },
                 Some(Err(e)) => {
-                    return Some(Err(e));
+                    if self.buffer.is_empty() {
+                        return Some(Err(e));
+                    } else {
+                        // If the buffer is non-empty, consider the grapheme done and return it,
+                        // but save the error and raise it next time around.
+                        self.pending_error = Some(e);
+                        return Some(Ok(mem::replace(&mut self.buffer, String::new())));
+                    }
                 },
             }
             let grapheme_length_pair = {
@@ -68,6 +79,7 @@ impl<R: Iterator<Item = io::Result<char>>> From<R> for Graphemes<R> {
         Graphemes {
             input: input,
             buffer: String::new(),
+            pending_error: None,
         }
     }
 }
