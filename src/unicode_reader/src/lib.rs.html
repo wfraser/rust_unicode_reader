@@ -190,6 +190,10 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2016 William R. Fraser</span>
 <span class='comment'>// </span>
@@ -209,15 +213,19 @@
 <span class='doccomment'>//! use std::io::Cursor;</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! fn main() {</span>
-<span class='doccomment'>//!     let input = Cursor::new(&quot;He\u{302}\u{320}llo!&quot;);</span>
+<span class='doccomment'>//!     let input = Cursor::new(&quot;He\u{302}\u{320}llo&quot;);</span>
 <span class='doccomment'>//!     let mut graphemes = Graphemes::from(input);</span>
-<span class='doccomment'>//!     assert_eq!(&quot;H&quot;, graphemes.next().unwrap().unwrap());</span>
-<span class='doccomment'>//!     assert_eq!(3,   graphemes.next().unwrap().unwrap().chars().count());</span>
-<span class='doccomment'>//!     assert_eq!(&quot;l&quot;, graphemes.next().unwrap().unwrap());</span>
+<span class='doccomment'>//!     assert_eq!(&quot;H&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class='doccomment'>//!     assert_eq!(&quot;e\u{302}\u{320}&quot;,   graphemes.next().unwrap().unwrap()); // note 3 characters</span>
+<span class='doccomment'>//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class='doccomment'>//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class='doccomment'>//!     assert_eq!(&quot;o&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class='doccomment'>//!     assert!(graphemes.next().is_none());</span>
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! [Repository](https://github.com/wfraser/rust_unicode_reader)</span>
+<span class='doccomment'>//! [Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>)]</span>
 
