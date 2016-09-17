@@ -1,0 +1,17 @@
+language: rust
+rust:
+- stable
+- beta
+- nightly
+matrix:
+  allow_failures:
+  - rust: nightly
+script:
+- cargo build
+- cargo test
+- cargo doc
+after_success:
+- bash deploy.sh
+env:
+  global:
+    secure: Gdz+8/sVhTnfYfrNt7u+w/Q92tD5bnjf7OOaDPLCl9hSSQNRQ2yGXpjrejLOwv2sypwdciXmdGdo60st63m4W2xo1QpmYooR57Wb11vpZYEt1SWA23C9XT3HKH+pfKB01YtsK+/5RKcwWaHuqAWQ3didevOX4y/8gI0i9ftwOwFDajqq+2k0lVwxR9ESP/4rIbqw4MEX4bte6dkd4R3k6bhmGIk02H0lHVs/KYY+wN64mNu68xHXNB/9EN0kkWaTKwO1lXZEYNDFCOHOKV8100+Hho53DXjmBqTpG1c8y+ZnxjHgMueKLQSkg9Lz7+rcRBBMzskENa7Jn7qmsd8fowFP3Jj4PL6dQmoQyZIoexzGLz9TU0ejofyS1z0uIV2pyqB4AwYjL302qrt9sXOKjCkPyUS5u+U5S6YXwWY5z3YZD6z/yQb0UCVAeYUA11HR164NV6HxZPmYE+tSv2JmnpobHQHRIkf/3AhJl4k+3U95j/BsMJy23M5ERw0uGxIqc+ZiwZG0Ye/Log3/LF5F1VX37vY05NnpyHZNKOBpzPXLl/ynfL6qHlPw+3ZZuQMfKafMTU0ttd7NejgwmnxihGtwCWnmOoAMsEifHXlWlAst3KYhOiNlKySgD5jT6I0UZYdxQ9wbEjrXywS4hDeEjT3GvZMn2HzaEWvQui7idOk=
