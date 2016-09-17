@@ -16,15 +16,19 @@
 //! use std::io::Cursor;
 //!
 //! fn main() {
-//!     let input = Cursor::new("He\u{302}\u{320}llo!");
+//!     let input = Cursor::new("He\u{302}\u{320}llo");
 //!     let mut graphemes = Graphemes::from(input);
-//!     assert_eq!("H", graphemes.next().unwrap().unwrap());
-//!     assert_eq!(3,   graphemes.next().unwrap().unwrap().chars().count());
-//!     assert_eq!("l", graphemes.next().unwrap().unwrap());
+//!     assert_eq!("H",                 graphemes.next().unwrap().unwrap());
+//!     assert_eq!("e\u{302}\u{320}",   graphemes.next().unwrap().unwrap()); // note 3 characters
+//!     assert_eq!("l",                 graphemes.next().unwrap().unwrap());
+//!     assert_eq!("l",                 graphemes.next().unwrap().unwrap());
+//!     assert_eq!("o",                 graphemes.next().unwrap().unwrap());
+//!     assert!(graphemes.next().is_none());
 //! }
 //! ```
 //!
 //! [Repository](https://github.com/wfraser/rust_unicode_reader)
+//! [Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)
 
 #![deny(missing_docs)]
 
