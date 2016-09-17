@@ -39,12 +39,15 @@ pub use graphemes::Graphemes;
 
 use std::io::{Bytes, Read};
 
+/// CodePoints can be constructed for any byte-oriented reader.
 impl<R: Read> From<R> for CodePoints<Bytes<R>> {
     fn from(input: R) -> CodePoints<Bytes<R>> {
         CodePoints::from(input.bytes())
     }
 }
 
+/// Graphemes can be constructed for any byte-oriented reader by going through CodePoints as an
+/// internal layer.
 impl<R: Read> From<R> for Graphemes<CodePoints<Bytes<R>>> {
     fn from(input: R) -> Graphemes<CodePoints<Bytes<R>>> {
         Graphemes::from(CodePoints::from(input))
