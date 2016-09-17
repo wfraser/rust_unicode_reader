@@ -194,6 +194,18 @@
 <span id="150">150</span>
 <span id="151">151</span>
 <span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright (c) 2016 William R. Fraser</span>
 <span class='comment'>// </span>
@@ -205,10 +217,15 @@
 
 <span class='doccomment'>//! Adaptors which wrap byte-oriented readers and yield the UTF-8 data as Unicode code points or</span>
 <span class='doccomment'>//! grapheme clusters.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Unlike other Unicode parsers which work on strings (e.g.</span>
+<span class='doccomment'>//! [unicode_segmentation](https://crates.io/crate/unicode_segmentation) upon which this is built),</span>
+<span class='doccomment'>//! this crate works on streams and doesn&#39;t require reading the entire data into memory. Instead it</span>
+<span class='doccomment'>//! yields the graphemes or code points as it reads them.</span>
 <span class='doccomment'>//! </span>
 <span class='doccomment'>//! ```rust</span>
 <span class='doccomment'>//! extern crate unicode_reader;</span>
-<span class='doccomment'>//! use unicode_reader::Graphemes;</span>
+<span class='doccomment'>//! use unicode_reader::{CodePoints, Graphemes};</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! use std::io::Cursor;</span>
 <span class='doccomment'>//!</span>
@@ -221,6 +238,13 @@
 <span class='doccomment'>//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
 <span class='doccomment'>//!     assert_eq!(&quot;o&quot;,                 graphemes.next().unwrap().unwrap());</span>
 <span class='doccomment'>//!     assert!(graphemes.next().is_none());</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//!     let greek_bytes = vec![0xCE, 0xA7, 0xCE, 0xB1, 0xCE, 0xAF, 0xCF, 0x81, 0xCE, 0xB5,</span>
+<span class='doccomment'>//!                            0xCF, 0x84, 0xCE, 0xB5];</span>
+<span class='doccomment'>//!     let mut codepoints = CodePoints::from(Cursor::new(greek_bytes));</span>
+<span class='doccomment'>//!     assert_eq!(vec![&#39;Χ&#39;, &#39;α&#39;, &#39;ί&#39;, &#39;ρ&#39;, &#39;ε&#39;, &#39;τ&#39;, &#39;ε&#39;],</span>
+<span class='doccomment'>//!                 codepoints.map(|r| r.unwrap())</span>
+<span class='doccomment'>//!                           .collect::&lt;Vec&lt;char&gt;&gt;());</span>
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
