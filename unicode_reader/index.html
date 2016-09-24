@@ -47,15 +47,16 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/unicode_reader/src/lib.rs.html#9-164' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Adaptors which wrap byte-oriented readers and yield the UTF-8 data as Unicode code points or
-grapheme clusters.</p>
+               </span><a id='src-0' class='srclink' href='../src/unicode_reader/src/lib.rs.html#9-175' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>This crate provides adaptors which wrap byte-oriented readers and yield the UTF-8 data as
+Unicode code points or grapheme clusters.</p>
 
 <p>Unlike other Unicode parsers which work on strings (e.g.
-<a href="https://crates.io/crate/unicode_segmentation">unicode_segmentation</a> upon which this is built),
+<a href="https://crates.io/crates/unicode_segmentation">unicode_segmentation</a> upon which this is built),
 this crate works on streams and doesn&#39;t require reading the entire data into memory. Instead it
 yields the graphemes or code points as it reads them.</p>
 
+<h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unicode_reader</span>;
 <span class='kw'>use</span> <span class='ident'>unicode_reader</span>::{<span class='ident'>CodePoints</span>, <span class='ident'>Graphemes</span>};
@@ -80,8 +81,9 @@ yields the graphemes or code points as it reads them.</p>
                           .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>());
 }</pre>
 
-<p><a href="https://github.com/wfraser/rust_unicode_reader">Repository</a>
-<a href="https://wfraser.github.io/rust_unicode_reader/unicode_reader">Documentation</a></p>
+<p><a href="https://github.com/wfraser/rust_unicode_reader">Repository</a></p>
+
+<p><a href="https://wfraser.github.io/rust_unicode_reader/unicode_reader">Documentation</a></p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
