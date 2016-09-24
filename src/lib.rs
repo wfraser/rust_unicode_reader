@@ -1,5 +1,5 @@
 // Copyright (c) 2016 William R. Fraser
-// 
+//
 // Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
 // http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
@@ -13,7 +13,7 @@
 //! [unicode_segmentation](https://crates.io/crates/unicode_segmentation) upon which this is built),
 //! this crate works on streams and doesn't require reading the entire data into memory. Instead it
 //! yields the graphemes or code points as it reads them.
-//! 
+//!
 //! # Example
 //!
 //! ```rust
@@ -83,17 +83,17 @@ mod test {
         // "zalgo text": The text "ZALGO", with each letter having a ridiculous number of combining
         // marks on it.
         // Should be read in as just 5 ridiculously long graphemes.
-        let zalgo =
-        "Z\u{0364}\u{0364}\u{033F}\u{034C}\u{0313}\u{0300}\u{0350}\u{0352}\u{030F}\u{0309}\u{0364}\u{0369}\u{0310}\u{0343}\u{0367}\u{034C}\u{0343}\u{0344}\u{035F}\u{032E}\u{0324}\u{032A}\u{033C}\u{032D}\u{031F}\u{0359}\u{032A}\u{0329}\u{0323}\u{0320}\u{032B}\u{0326}\u{0323}\u{0347}\u{0326}\u{0354}\u{0331}A\u{0344}\u{0364}\u{0308}\u{036A}\u{036B}\u{0334}\u{0335}\u{0337}\u{035E}\u{0316}\u{0339}\u{0356}\u{0318}\u{0326}\u{0348}\u{033A}\u{031E}\u{032C}\u{0356}\u{0329}\u{0354}\u{0318}\u{032A}L\u{0312}\u{0342}\u{0357}\u{033E}\u{0343}\u{031A}\u{0301}\u{0346}\u{0334}\u{0328}\u{031C}\u{0329}\u{0349}\u{0318}\u{0349}\u{0359}\u{0329}\u{032A}\u{0355}\u{0359}\u{0332}G\u{0309}\u{0314}\u{030F}\u{036B}\u{030D}\u{036E}\u{030D}\u{0303}\u{036C}\u{030D}\u{0328}\u{031D}\u{0355}\u{035A}\u{0330}\u{0332}\u{032D}O\u{0350}\u{033F}\u{0308}\u{033F}\u{036D}\u{031A}\u{0304}\u{0350}\u{0344}\u{034B}\u{031B}\u{0322}\u{035D}\u{035C}\u{0336}\u{032A}\u{0317}\u{032C}\u{0347}\u{0316}\u{034D}\u{0323}\u{0330}\u{031E}\u{0354}\u{034E}\u{0323}\u{0326}\u{0317}";
+        let zalgo = "Z\u{0364}\u{0364}\u{033F}\u{034C}\u{0313}\u{0300}\u{0350}\u{0352}\u{030F}\u{0309}\u{0364}\u{0369}\u{0310}\u{0343}\u{0367}\u{034C}\u{0343}\u{0344}\u{035F}\u{032E}\u{0324}\u{032A}\u{033C}\u{032D}\u{031F}\u{0359}\u{032A}\u{0329}\u{0323}\u{0320}\u{032B}\u{0326}\u{0323}\u{0347}\u{0326}\u{0354}\u{0331}A\u{0344}\u{0364}\u{0308}\u{036A}\u{036B}\u{0334}\u{0335}\u{0337}\u{035E}\u{0316}\u{0339}\u{0356}\u{0318}\u{0326}\u{0348}\u{033A}\u{031E}\u{032C}\u{0356}\u{0329}\u{0354}\u{0318}\u{032A}L\u{0312}\u{0342}\u{0357}\u{033E}\u{0343}\u{031A}\u{0301}\u{0346}\u{0334}\u{0328}\u{031C}\u{0329}\u{0349}\u{0318}\u{0349}\u{0359}\u{0329}\u{032A}\u{0355}\u{0359}\u{0332}G\u{0309}\u{0314}\u{030F}\u{036B}\u{030D}\u{036E}\u{030D}\u{0303}\u{036C}\u{030D}\u{0328}\u{031D}\u{0355}\u{035A}\u{0330}\u{0332}\u{032D}O\u{0350}\u{033F}\u{0308}\u{033F}\u{036D}\u{031A}\u{0304}\u{0350}\u{0344}\u{034B}\u{031B}\u{0322}\u{035D}\u{035C}\u{0336}\u{032A}\u{0317}\u{032C}\u{0347}\u{0316}\u{034D}\u{0323}\u{0330}\u{031E}\u{0354}\u{034E}\u{0323}\u{0326}\u{0317}";
         let input = Cursor::new(zalgo);
-        assert_eq!(vec![('Z', 75), ('A', 47), ('L', 43), ('G', 35), ('O' ,59)],
-            Graphemes::from(input)
+        assert_eq!(vec![('Z', 75), ('A', 47), ('L', 43), ('G', 35), ('O', 59)],
+                   Graphemes::from(input)
                 .map(|g| g.unwrap())
                 .map(|g| (g.chars().next().unwrap(), g.len())) // (first_codepoint, num_bytes)
                 .collect::<Vec<_>>());
     }
 
-    fn assert_badutf8err<T>(reader: &mut Iterator<Item = io::Result<T>>, kind: io::ErrorKind,
+    fn assert_badutf8err<T>(reader: &mut Iterator<Item = io::Result<T>>,
+                            kind: io::ErrorKind,
                             bad_bytes: Vec<u8>) {
         let result = reader.next().unwrap();
         assert!(result.is_err());
@@ -110,7 +110,9 @@ mod test {
         assert_eq!('a', codepoints.next().unwrap().unwrap());
 
         // Here it should fail to parse a code point.
-        assert_badutf8err(&mut codepoints, io::ErrorKind::InvalidData, vec![0xe2, 0x28, 0xa1]);
+        assert_badutf8err(&mut codepoints,
+                          io::ErrorKind::InvalidData,
+                          vec![0xe2, 0x28, 0xa1]);
 
         // It should recover and continue after the bad bytes.
         assert_eq!('b', codepoints.next().unwrap().unwrap());
@@ -125,7 +127,9 @@ mod test {
         assert_eq!('a', codepoints.next().unwrap().unwrap());
 
         // Here it should fail to parse a code point.
-        assert_badutf8err(&mut codepoints, io::ErrorKind::UnexpectedEof, vec![0xe2, 0x80]);
+        assert_badutf8err(&mut codepoints,
+                          io::ErrorKind::UnexpectedEof,
+                          vec![0xe2, 0x80]);
 
         // After reading the bad bytes, it should report the end of stream.
         assert!(codepoints.next().is_none());
@@ -143,7 +147,9 @@ mod test {
         assert_eq!("b", graphemes.next().unwrap().unwrap());
 
         // Now it should raise the error.
-        assert_badutf8err(&mut graphemes, io::ErrorKind::InvalidData, vec![0xe2, 0x28, 0xa1]);
+        assert_badutf8err(&mut graphemes,
+                          io::ErrorKind::InvalidData,
+                          vec![0xe2, 0x28, 0xa1]);
 
         // Now it should recover and return more valid data.
         assert_eq!("c", graphemes.next().unwrap().unwrap());
@@ -157,7 +163,9 @@ mod test {
         let mut graphemes = Graphemes::from(Cursor::new(bad));
 
         // Now it should raise the error.
-        assert_badutf8err(&mut graphemes, io::ErrorKind::InvalidData, vec![0xe2, 0x28, 0xa1]);
+        assert_badutf8err(&mut graphemes,
+                          io::ErrorKind::InvalidData,
+                          vec![0xe2, 0x28, 0xa1]);
 
         // But recover and read the rest okay.
         assert_eq!("a", graphemes.next().unwrap().unwrap());

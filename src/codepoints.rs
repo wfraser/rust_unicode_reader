@@ -38,9 +38,9 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                         let mut chars = s.chars();
                         let c = chars.next().unwrap();
                         assert!(chars.next().is_none(),
-                            "unexpectedly got >1 code point at a time!");
+                                "unexpectedly got >1 code point at a time!");
                         Ok(Some(c))
-                    },
+                    }
                     Err(e) => {
                         if self.buffer.len() - e.valid_up_to() >= 4 {
                             // If we have 4 bytes that still don't make up a valid code point, then
@@ -51,13 +51,13 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                             // out.
                             Ok(None)
                         }
-                    },
+                    }
                 };
                 match maybe_codepoint {
                     Ok(Some(codepoint)) => {
                         self.buffer.clear();
                         return Some(Ok(codepoint));
-                    },
+                    }
                     Err(()) => {
                         // We have bad data in the buffer. Remove leading bytes until either the
                         // buffer is empty, or we have a valid code point.
@@ -75,27 +75,30 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                         // Raise the error. If we still have data in the buffer, it will be
                         // returned on the next loop.
                         return Some(Err(io::Error::new(io::ErrorKind::InvalidData,
-                                BadUtf8Error { bytes: badbytes })));
-                    },
+                                                       BadUtf8Error { bytes: badbytes })));
+                    }
                     Ok(None) => (),
                 }
             }
             match self.input.next() {
                 Some(Ok(byte)) => {
                     self.buffer.push(byte);
-                },
+                }
                 None => {
                     if self.buffer.is_empty() {
                         return None;
                     } else {
                         // Invalid utf-8 at end of stream.
                         return Some(Err(io::Error::new(io::ErrorKind::UnexpectedEof,
-                            BadUtf8Error { bytes: mem::replace(&mut self.buffer, vec![]) })));
+                                                       BadUtf8Error {
+                                                           bytes: mem::replace(&mut self.buffer,
+                                                                               vec![]),
+                                                       })));
                     }
-                },
+                }
                 Some(Err(e)) => {
                     return Some(Err(e));
-                },
+                }
             }
         }
     }

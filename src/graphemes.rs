@@ -33,14 +33,14 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
             match self.input.next() {
                 Some(Ok(codepoint)) => {
                     self.buffer.push(codepoint);
-                },
+                }
                 None => {
                     if self.buffer.is_empty() {
                         return None;
                     } else {
                         return Some(Ok(mem::replace(&mut self.buffer, String::new())));
                     }
-                },
+                }
                 Some(Err(e)) => {
                     if self.buffer.is_empty() {
                         return Some(Err(e));
@@ -50,7 +50,7 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
                         self.pending_error = Some(e);
                         return Some(Ok(mem::replace(&mut self.buffer, String::new())));
                     }
-                },
+                }
             }
             let grapheme_length_pair = {
                 let mut gi = self.buffer.grapheme_indices(true).fuse();
@@ -67,7 +67,8 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
                 }
             };
             if let Some((grapheme, length)) = grapheme_length_pair {
-                self.buffer = unsafe { self.buffer.slice_unchecked(length, self.buffer.len()) }.to_owned();
+                self.buffer = unsafe { self.buffer.slice_unchecked(length, self.buffer.len()) }
+                    .to_owned();
                 return Some(Ok(grapheme));
             }
         }
