@@ -6,14 +6,16 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! Adaptors which wrap byte-oriented readers and yield the UTF-8 data as Unicode code points or
-//! grapheme clusters.
+//! This crate provides adaptors which wrap byte-oriented readers and yield the UTF-8 data as
+//! Unicode code points or grapheme clusters.
 //!
 //! Unlike other Unicode parsers which work on strings (e.g.
-//! [unicode_segmentation](https://crates.io/crate/unicode_segmentation) upon which this is built),
+//! [unicode_segmentation](https://crates.io/crates/unicode_segmentation) upon which this is built),
 //! this crate works on streams and doesn't require reading the entire data into memory. Instead it
 //! yields the graphemes or code points as it reads them.
 //! 
+//! # Example
+//!
 //! ```rust
 //! extern crate unicode_reader;
 //! use unicode_reader::{CodePoints, Graphemes};
@@ -40,6 +42,7 @@
 //! ```
 //!
 //! [Repository](https://github.com/wfraser/rust_unicode_reader)
+//!
 //! [Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)
 
 #![deny(missing_docs)]

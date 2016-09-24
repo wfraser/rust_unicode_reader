@@ -8,7 +8,7 @@ Adaptors which wrap byte-oriented readers and yield the UTF-8 data as Unicode co
 grapheme clusters.
 
 Unlike other Unicode parsers which work on strings (for instance, 
-[unicode_segmentation](https://crates.io/crate/unicode_segmentation), upon which this is built),
+[unicode_segmentation](https://crates.io/crates/unicode_segmentation), upon which this is built),
 this crate works on streams and doesn't require reading the entire data into memory. Instead it
 yields the graphemes or code points as it reads them.
 
