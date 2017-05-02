@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -218,180 +218,180 @@
 <span id="173">173</span>
 <span id="174">174</span>
 <span id="175">175</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright (c) 2016 William R. Fraser</span>
-<span class='comment'>//</span>
-<span class='comment'>// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
-<span class='comment'>// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
-<span class='comment'>// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
-<span class='comment'>// option. This file may not be copied, modified, or distributed</span>
-<span class='comment'>// except according to those terms.</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright (c) 2016 William R. Fraser</span>
+<span class="comment">//</span>
+<span class="comment">// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
+<span class="comment">// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
+<span class="comment">// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
+<span class="comment">// option. This file may not be copied, modified, or distributed</span>
+<span class="comment">// except according to those terms.</span>
 
-<span class='doccomment'>//! This crate provides adaptors which wrap byte-oriented readers and yield the UTF-8 data as</span>
-<span class='doccomment'>//! Unicode code points or grapheme clusters.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Unlike other Unicode parsers which work on strings (e.g.</span>
-<span class='doccomment'>//! [unicode_segmentation](https://crates.io/crates/unicode_segmentation) upon which this is built),</span>
-<span class='doccomment'>//! this crate works on streams and doesn&#39;t require reading the entire data into memory. Instead it</span>
-<span class='doccomment'>//! yields the graphemes or code points as it reads them.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Example</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! extern crate unicode_reader;</span>
-<span class='doccomment'>//! use unicode_reader::{CodePoints, Graphemes};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! use std::io::Cursor;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! fn main() {</span>
-<span class='doccomment'>//!     let input = Cursor::new(&quot;He\u{302}\u{320}llo&quot;);</span>
-<span class='doccomment'>//!     let mut graphemes = Graphemes::from(input);</span>
-<span class='doccomment'>//!     assert_eq!(&quot;H&quot;,                 graphemes.next().unwrap().unwrap());</span>
-<span class='doccomment'>//!     assert_eq!(&quot;e\u{302}\u{320}&quot;,   graphemes.next().unwrap().unwrap()); // note 3 characters</span>
-<span class='doccomment'>//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
-<span class='doccomment'>//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
-<span class='doccomment'>//!     assert_eq!(&quot;o&quot;,                 graphemes.next().unwrap().unwrap());</span>
-<span class='doccomment'>//!     assert!(graphemes.next().is_none());</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!     let greek_bytes = vec![0xCE, 0xA7, 0xCE, 0xB1, 0xCE, 0xAF, 0xCF, 0x81, 0xCE, 0xB5,</span>
-<span class='doccomment'>//!                            0xCF, 0x84, 0xCE, 0xB5];</span>
-<span class='doccomment'>//!     let mut codepoints = CodePoints::from(Cursor::new(greek_bytes));</span>
-<span class='doccomment'>//!     assert_eq!(vec![&#39;Χ&#39;, &#39;α&#39;, &#39;ί&#39;, &#39;ρ&#39;, &#39;ε&#39;, &#39;τ&#39;, &#39;ε&#39;],</span>
-<span class='doccomment'>//!                 codepoints.map(|r| r.unwrap())</span>
-<span class='doccomment'>//!                           .collect::&lt;Vec&lt;char&gt;&gt;());</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! [Repository](https://github.com/wfraser/rust_unicode_reader)</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! [Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)</span>
+<span class="doccomment">//! This crate provides adaptors which wrap byte-oriented readers and yield the UTF-8 data as</span>
+<span class="doccomment">//! Unicode code points or grapheme clusters.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Unlike other Unicode parsers which work on strings (e.g.</span>
+<span class="doccomment">//! [unicode_segmentation](https://crates.io/crates/unicode_segmentation) upon which this is built),</span>
+<span class="doccomment">//! this crate works on streams and doesn&#39;t require reading the entire data into memory. Instead it</span>
+<span class="doccomment">//! yields the graphemes or code points as it reads them.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Example</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! extern crate unicode_reader;</span>
+<span class="doccomment">//! use unicode_reader::{CodePoints, Graphemes};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! use std::io::Cursor;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn main() {</span>
+<span class="doccomment">//!     let input = Cursor::new(&quot;He\u{302}\u{320}llo&quot;);</span>
+<span class="doccomment">//!     let mut graphemes = Graphemes::from(input);</span>
+<span class="doccomment">//!     assert_eq!(&quot;H&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class="doccomment">//!     assert_eq!(&quot;e\u{302}\u{320}&quot;,   graphemes.next().unwrap().unwrap()); // note 3 characters</span>
+<span class="doccomment">//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class="doccomment">//!     assert_eq!(&quot;l&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class="doccomment">//!     assert_eq!(&quot;o&quot;,                 graphemes.next().unwrap().unwrap());</span>
+<span class="doccomment">//!     assert!(graphemes.next().is_none());</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     let greek_bytes = vec![0xCE, 0xA7, 0xCE, 0xB1, 0xCE, 0xAF, 0xCF, 0x81, 0xCE, 0xB5,</span>
+<span class="doccomment">//!                            0xCF, 0x84, 0xCE, 0xB5];</span>
+<span class="doccomment">//!     let mut codepoints = CodePoints::from(Cursor::new(greek_bytes));</span>
+<span class="doccomment">//!     assert_eq!(vec![&#39;Χ&#39;, &#39;α&#39;, &#39;ί&#39;, &#39;ρ&#39;, &#39;ε&#39;, &#39;τ&#39;, &#39;ε&#39;],</span>
+<span class="doccomment">//!                 codepoints.map(|r| r.unwrap())</span>
+<span class="doccomment">//!                           .collect::&lt;Vec&lt;char&gt;&gt;());</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [Repository](https://github.com/wfraser/rust_unicode_reader)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>)]</span>
+<span class="attribute">#<span class="op">!</span>[<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unicode_segmentation</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">unicode_segmentation</span>;
 
-<span class='kw'>mod</span> <span class='ident'>codepoints</span>;
-<span class='kw'>mod</span> <span class='ident'>graphemes</span>;
+<span class="kw">mod</span> <span class="ident">codepoints</span>;
+<span class="kw">mod</span> <span class="ident">graphemes</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>codepoints</span>::<span class='ident'>CodePoints</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>codepoints</span>::<span class='ident'>BadUtf8Error</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>graphemes</span>::<span class='ident'>Graphemes</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">codepoints</span>::<span class="ident">CodePoints</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">codepoints</span>::<span class="ident">BadUtf8Error</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">graphemes</span>::<span class="ident">Graphemes</span>;
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Bytes</span>, <span class='ident'>Read</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">Bytes</span>, <span class="ident">Read</span>};
 
-<span class='doccomment'>/// CodePoints can be constructed for any byte-oriented reader.</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>CodePoints</span><span class='op'>&lt;</span><span class='ident'>Bytes</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>input</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>CodePoints</span><span class='op'>&lt;</span><span class='ident'>Bytes</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span> {
-        <span class='ident'>CodePoints</span>::<span class='ident'>from</span>(<span class='ident'>input</span>.<span class='ident'>bytes</span>())
+<span class="doccomment">/// CodePoints can be constructed for any byte-oriented reader.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CodePoints</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">input</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">CodePoints</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">CodePoints</span>::<span class="ident">from</span>(<span class="ident">input</span>.<span class="ident">bytes</span>())
     }
 }
 
-<span class='doccomment'>/// Graphemes can be constructed for any byte-oriented reader by going through CodePoints as an</span>
-<span class='doccomment'>/// internal layer.</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Graphemes</span><span class='op'>&lt;</span><span class='ident'>CodePoints</span><span class='op'>&lt;</span><span class='ident'>Bytes</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>input</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>Graphemes</span><span class='op'>&lt;</span><span class='ident'>CodePoints</span><span class='op'>&lt;</span><span class='ident'>Bytes</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
-        <span class='ident'>Graphemes</span>::<span class='ident'>from</span>(<span class='ident'>CodePoints</span>::<span class='ident'>from</span>(<span class='ident'>input</span>))
+<span class="doccomment">/// Graphemes can be constructed for any byte-oriented reader by going through CodePoints as an</span>
+<span class="doccomment">/// internal layer.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Read</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Graphemes</span><span class="op">&lt;</span><span class="ident">CodePoints</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">input</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">Graphemes</span><span class="op">&lt;</span><span class="ident">CodePoints</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
+        <span class="ident">Graphemes</span>::<span class="ident">from</span>(<span class="ident">CodePoints</span>::<span class="ident">from</span>(<span class="ident">input</span>))
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>Cursor</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Cursor</span>};
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_zalgo</span>() {
-        <span class='comment'>// &quot;zalgo text&quot;: The text &quot;ZALGO&quot;, with each letter having a ridiculous number of combining</span>
-        <span class='comment'>// marks on it.</span>
-        <span class='comment'>// Should be read in as just 5 ridiculously long graphemes.</span>
-        <span class='kw'>let</span> <span class='ident'>zalgo</span> <span class='op'>=</span> <span class='string'>&quot;Z\u{0364}\u{0364}\u{033F}\u{034C}\u{0313}\u{0300}\u{0350}\u{0352}\u{030F}\u{0309}\u{0364}\u{0369}\u{0310}\u{0343}\u{0367}\u{034C}\u{0343}\u{0344}\u{035F}\u{032E}\u{0324}\u{032A}\u{033C}\u{032D}\u{031F}\u{0359}\u{032A}\u{0329}\u{0323}\u{0320}\u{032B}\u{0326}\u{0323}\u{0347}\u{0326}\u{0354}\u{0331}A\u{0344}\u{0364}\u{0308}\u{036A}\u{036B}\u{0334}\u{0335}\u{0337}\u{035E}\u{0316}\u{0339}\u{0356}\u{0318}\u{0326}\u{0348}\u{033A}\u{031E}\u{032C}\u{0356}\u{0329}\u{0354}\u{0318}\u{032A}L\u{0312}\u{0342}\u{0357}\u{033E}\u{0343}\u{031A}\u{0301}\u{0346}\u{0334}\u{0328}\u{031C}\u{0329}\u{0349}\u{0318}\u{0349}\u{0359}\u{0329}\u{032A}\u{0355}\u{0359}\u{0332}G\u{0309}\u{0314}\u{030F}\u{036B}\u{030D}\u{036E}\u{030D}\u{0303}\u{036C}\u{030D}\u{0328}\u{031D}\u{0355}\u{035A}\u{0330}\u{0332}\u{032D}O\u{0350}\u{033F}\u{0308}\u{033F}\u{036D}\u{031A}\u{0304}\u{0350}\u{0344}\u{034B}\u{031B}\u{0322}\u{035D}\u{035C}\u{0336}\u{032A}\u{0317}\u{032C}\u{0347}\u{0316}\u{034D}\u{0323}\u{0330}\u{031E}\u{0354}\u{034E}\u{0323}\u{0326}\u{0317}&quot;</span>;
-        <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>zalgo</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>vec</span><span class='macro'>!</span>[(<span class='string'>&#39;Z&#39;</span>, <span class='number'>75</span>), (<span class='string'>&#39;A&#39;</span>, <span class='number'>47</span>), (<span class='string'>&#39;L&#39;</span>, <span class='number'>43</span>), (<span class='string'>&#39;G&#39;</span>, <span class='number'>35</span>), (<span class='string'>&#39;O&#39;</span>, <span class='number'>59</span>)],
-                   <span class='ident'>Graphemes</span>::<span class='ident'>from</span>(<span class='ident'>input</span>)
-                .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> <span class='ident'>g</span>.<span class='ident'>unwrap</span>())
-                .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> (<span class='ident'>g</span>.<span class='ident'>chars</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>(), <span class='ident'>g</span>.<span class='ident'>len</span>())) <span class='comment'>// (first_codepoint, num_bytes)</span>
-                .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_zalgo</span>() {
+        <span class="comment">// &quot;zalgo text&quot;: The text &quot;ZALGO&quot;, with each letter having a ridiculous number of combining</span>
+        <span class="comment">// marks on it.</span>
+        <span class="comment">// Should be read in as just 5 ridiculously long graphemes.</span>
+        <span class="kw">let</span> <span class="ident">zalgo</span> <span class="op">=</span> <span class="string">&quot;Z\u{0364}\u{0364}\u{033F}\u{034C}\u{0313}\u{0300}\u{0350}\u{0352}\u{030F}\u{0309}\u{0364}\u{0369}\u{0310}\u{0343}\u{0367}\u{034C}\u{0343}\u{0344}\u{035F}\u{032E}\u{0324}\u{032A}\u{033C}\u{032D}\u{031F}\u{0359}\u{032A}\u{0329}\u{0323}\u{0320}\u{032B}\u{0326}\u{0323}\u{0347}\u{0326}\u{0354}\u{0331}A\u{0344}\u{0364}\u{0308}\u{036A}\u{036B}\u{0334}\u{0335}\u{0337}\u{035E}\u{0316}\u{0339}\u{0356}\u{0318}\u{0326}\u{0348}\u{033A}\u{031E}\u{032C}\u{0356}\u{0329}\u{0354}\u{0318}\u{032A}L\u{0312}\u{0342}\u{0357}\u{033E}\u{0343}\u{031A}\u{0301}\u{0346}\u{0334}\u{0328}\u{031C}\u{0329}\u{0349}\u{0318}\u{0349}\u{0359}\u{0329}\u{032A}\u{0355}\u{0359}\u{0332}G\u{0309}\u{0314}\u{030F}\u{036B}\u{030D}\u{036E}\u{030D}\u{0303}\u{036C}\u{030D}\u{0328}\u{031D}\u{0355}\u{035A}\u{0330}\u{0332}\u{032D}O\u{0350}\u{033F}\u{0308}\u{033F}\u{036D}\u{031A}\u{0304}\u{0350}\u{0344}\u{034B}\u{031B}\u{0322}\u{035D}\u{035C}\u{0336}\u{032A}\u{0317}\u{032C}\u{0347}\u{0316}\u{034D}\u{0323}\u{0330}\u{031E}\u{0354}\u{034E}\u{0323}\u{0326}\u{0317}&quot;</span>;
+        <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">zalgo</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&#39;Z&#39;</span>, <span class="number">75</span>), (<span class="string">&#39;A&#39;</span>, <span class="number">47</span>), (<span class="string">&#39;L&#39;</span>, <span class="number">43</span>), (<span class="string">&#39;G&#39;</span>, <span class="number">35</span>), (<span class="string">&#39;O&#39;</span>, <span class="number">59</span>)],
+                   <span class="ident">Graphemes</span>::<span class="ident">from</span>(<span class="ident">input</span>)
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">g</span><span class="op">|</span> <span class="ident">g</span>.<span class="ident">unwrap</span>())
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">g</span><span class="op">|</span> (<span class="ident">g</span>.<span class="ident">chars</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>(), <span class="ident">g</span>.<span class="ident">len</span>())) <span class="comment">// (first_codepoint, num_bytes)</span>
+                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;&gt;</span>());
     }
 
-    <span class='kw'>fn</span> <span class='ident'>assert_badutf8err</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>reader</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>,
-                            <span class='ident'>kind</span>: <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>,
-                            <span class='ident'>bad_bytes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>reader</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>is_err</span>());
-        <span class='kw'>let</span> <span class='ident'>ioerr</span>: <span class='ident'>io</span>::<span class='ident'>Error</span> <span class='op'>=</span> <span class='ident'>result</span>.<span class='ident'>err</span>().<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>kind</span>, <span class='ident'>ioerr</span>.<span class='ident'>kind</span>());
-        <span class='kw'>let</span> <span class='ident'>inner</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>BadUtf8Error</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>ioerr</span>.<span class='ident'>into_inner</span>().<span class='ident'>unwrap</span>().<span class='ident'>downcast</span>().<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>bad_bytes</span>, <span class='ident'>inner</span>.<span class='ident'>bytes</span>);
+    <span class="kw">fn</span> <span class="ident">assert_badutf8err</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>,
+                            <span class="ident">kind</span>: <span class="ident">io</span>::<span class="ident">ErrorKind</span>,
+                            <span class="ident">bad_bytes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="kw">let</span> <span class="ident">ioerr</span>: <span class="ident">io</span>::<span class="ident">Error</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">err</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">kind</span>, <span class="ident">ioerr</span>.<span class="ident">kind</span>());
+        <span class="kw">let</span> <span class="ident">inner</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">BadUtf8Error</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">ioerr</span>.<span class="ident">into_inner</span>().<span class="ident">unwrap</span>().<span class="ident">downcast</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bad_bytes</span>, <span class="ident">inner</span>.<span class="ident">bytes</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_utf8_error</span>() {
-        <span class='kw'>let</span> <span class='ident'>bad</span> <span class='op'>=</span> <span class='string'>b&quot;a\xe2\x28\xa1bc&quot;</span>; <span class='comment'>// the 2nd byte of the 3-byte set is invalid utf8</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>codepoints</span> <span class='op'>=</span> <span class='ident'>CodePoints</span>::<span class='ident'>from</span>(<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>bad</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&#39;a&#39;</span>, <span class='ident'>codepoints</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_utf8_error</span>() {
+        <span class="kw">let</span> <span class="ident">bad</span> <span class="op">=</span> <span class="string">b&quot;a\xe2\x28\xa1bc&quot;</span>; <span class="comment">// the 2nd byte of the 3-byte set is invalid utf8</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codepoints</span> <span class="op">=</span> <span class="ident">CodePoints</span>::<span class="ident">from</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">bad</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&#39;a&#39;</span>, <span class="ident">codepoints</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
 
-        <span class='comment'>// Here it should fail to parse a code point.</span>
-        <span class='ident'>assert_badutf8err</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>codepoints</span>,
-                          <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidData</span>,
-                          <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xe2</span>, <span class='number'>0x28</span>, <span class='number'>0xa1</span>]);
+        <span class="comment">// Here it should fail to parse a code point.</span>
+        <span class="ident">assert_badutf8err</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">codepoints</span>,
+                          <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>,
+                          <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0xe2</span>, <span class="number">0x28</span>, <span class="number">0xa1</span>]);
 
-        <span class='comment'>// It should recover and continue after the bad bytes.</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&#39;b&#39;</span>, <span class='ident'>codepoints</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&#39;c&#39;</span>, <span class='ident'>codepoints</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>codepoints</span>.<span class='ident'>next</span>().<span class='ident'>is_none</span>());
+        <span class="comment">// It should recover and continue after the bad bytes.</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&#39;b&#39;</span>, <span class="ident">codepoints</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&#39;c&#39;</span>, <span class="ident">codepoints</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">codepoints</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_error_at_end</span>() {
-        <span class='kw'>let</span> <span class='ident'>bad</span> <span class='op'>=</span> <span class='string'>b&quot;a\xe2\x80&quot;</span>; <span class='comment'>// ends in incomplete 3-byte UTF-8</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>codepoints</span> <span class='op'>=</span> <span class='ident'>CodePoints</span>::<span class='ident'>from</span>(<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>bad</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&#39;a&#39;</span>, <span class='ident'>codepoints</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_error_at_end</span>() {
+        <span class="kw">let</span> <span class="ident">bad</span> <span class="op">=</span> <span class="string">b&quot;a\xe2\x80&quot;</span>; <span class="comment">// ends in incomplete 3-byte UTF-8</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codepoints</span> <span class="op">=</span> <span class="ident">CodePoints</span>::<span class="ident">from</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">bad</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&#39;a&#39;</span>, <span class="ident">codepoints</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
 
-        <span class='comment'>// Here it should fail to parse a code point.</span>
-        <span class='ident'>assert_badutf8err</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>codepoints</span>,
-                          <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>UnexpectedEof</span>,
-                          <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xe2</span>, <span class='number'>0x80</span>]);
+        <span class="comment">// Here it should fail to parse a code point.</span>
+        <span class="ident">assert_badutf8err</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">codepoints</span>,
+                          <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span>,
+                          <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0xe2</span>, <span class="number">0x80</span>]);
 
-        <span class='comment'>// After reading the bad bytes, it should report the end of stream.</span>
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>codepoints</span>.<span class='ident'>next</span>().<span class='ident'>is_none</span>());
+        <span class="comment">// After reading the bad bytes, it should report the end of stream.</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">codepoints</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_grapheme_bad_utf8</span>() {
-        <span class='kw'>let</span> <span class='ident'>bad</span> <span class='op'>=</span> <span class='string'>b&quot;ab\xe2\x28\xa1cd&quot;</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>graphemes</span> <span class='op'>=</span> <span class='ident'>Graphemes</span>::<span class='ident'>from</span>(<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>bad</span>));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_grapheme_bad_utf8</span>() {
+        <span class="kw">let</span> <span class="ident">bad</span> <span class="op">=</span> <span class="string">b&quot;ab\xe2\x28\xa1cd&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">graphemes</span> <span class="op">=</span> <span class="ident">Graphemes</span>::<span class="ident">from</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">bad</span>));
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;a&quot;</span>, <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;a&quot;</span>, <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
 
-        <span class='comment'>// Graphemes will hit the error here, but it needs to store it and return its pending</span>
-        <span class='comment'>// buffer instead.</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;b&quot;</span>, <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
+        <span class="comment">// Graphemes will hit the error here, but it needs to store it and return its pending</span>
+        <span class="comment">// buffer instead.</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;b&quot;</span>, <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
 
-        <span class='comment'>// Now it should raise the error.</span>
-        <span class='ident'>assert_badutf8err</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>graphemes</span>,
-                          <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidData</span>,
-                          <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xe2</span>, <span class='number'>0x28</span>, <span class='number'>0xa1</span>]);
+        <span class="comment">// Now it should raise the error.</span>
+        <span class="ident">assert_badutf8err</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">graphemes</span>,
+                          <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>,
+                          <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0xe2</span>, <span class="number">0x28</span>, <span class="number">0xa1</span>]);
 
-        <span class='comment'>// Now it should recover and return more valid data.</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;c&quot;</span>, <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;d&quot;</span>, <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>is_none</span>());
+        <span class="comment">// Now it should recover and return more valid data.</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;c&quot;</span>, <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;d&quot;</span>, <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_grapheme_bad_utf8_at_start</span>() {
-        <span class='kw'>let</span> <span class='ident'>bad</span> <span class='op'>=</span> <span class='string'>b&quot;\xe2\x28\xa1ab&quot;</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>graphemes</span> <span class='op'>=</span> <span class='ident'>Graphemes</span>::<span class='ident'>from</span>(<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>bad</span>));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_grapheme_bad_utf8_at_start</span>() {
+        <span class="kw">let</span> <span class="ident">bad</span> <span class="op">=</span> <span class="string">b&quot;\xe2\x28\xa1ab&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">graphemes</span> <span class="op">=</span> <span class="ident">Graphemes</span>::<span class="ident">from</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">bad</span>));
 
-        <span class='comment'>// Now it should raise the error.</span>
-        <span class='ident'>assert_badutf8err</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>graphemes</span>,
-                          <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>InvalidData</span>,
-                          <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xe2</span>, <span class='number'>0x28</span>, <span class='number'>0xa1</span>]);
+        <span class="comment">// Now it should raise the error.</span>
+        <span class="ident">assert_badutf8err</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">graphemes</span>,
+                          <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>,
+                          <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0xe2</span>, <span class="number">0x28</span>, <span class="number">0xa1</span>]);
 
-        <span class='comment'>// But recover and read the rest okay.</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;a&quot;</span>, <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;b&quot;</span>, <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>is_none</span>());
+        <span class="comment">// But recover and read the rest okay.</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;a&quot;</span>, <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;b&quot;</span>, <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
     }
 }
 </pre>

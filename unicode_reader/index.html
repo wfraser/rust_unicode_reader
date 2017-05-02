@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>unicode_reader</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>unicode_reader</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -58,28 +58,28 @@ this crate works on streams and doesn&#39;t require reading the entire data into
 yields the graphemes or code points as it reads them.</p>
 
 <h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unicode_reader</span>;
-<span class='kw'>use</span> <span class='ident'>unicode_reader</span>::{<span class='ident'>CodePoints</span>, <span class='ident'>Graphemes</span>};
+<pre class="rust rust-example-rendered">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">unicode_reader</span>;
+<span class="kw">use</span> <span class="ident">unicode_reader</span>::{<span class="ident">CodePoints</span>, <span class="ident">Graphemes</span>};
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Cursor</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Cursor</span>;
 
-<span class='kw'>fn</span> <span class='ident'>main</span>() {
-    <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='string'>&quot;He\u{302}\u{320}llo&quot;</span>);
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>graphemes</span> <span class='op'>=</span> <span class='ident'>Graphemes</span>::<span class='ident'>from</span>(<span class='ident'>input</span>);
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;H&quot;</span>,                 <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;e\u{302}\u{320}&quot;</span>,   <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>()); <span class='comment'>// note 3 characters</span>
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;l&quot;</span>,                 <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;l&quot;</span>,                 <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;o&quot;</span>,                 <span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>());
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>graphemes</span>.<span class='ident'>next</span>().<span class='ident'>is_none</span>());
+<span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="string">&quot;He\u{302}\u{320}llo&quot;</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">graphemes</span> <span class="op">=</span> <span class="ident">Graphemes</span>::<span class="ident">from</span>(<span class="ident">input</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;H&quot;</span>,                 <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;e\u{302}\u{320}&quot;</span>,   <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>()); <span class="comment">// note 3 characters</span>
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;l&quot;</span>,                 <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;l&quot;</span>,                 <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;o&quot;</span>,                 <span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>());
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">graphemes</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());
 
-    <span class='kw'>let</span> <span class='ident'>greek_bytes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xCE</span>, <span class='number'>0xA7</span>, <span class='number'>0xCE</span>, <span class='number'>0xB1</span>, <span class='number'>0xCE</span>, <span class='number'>0xAF</span>, <span class='number'>0xCF</span>, <span class='number'>0x81</span>, <span class='number'>0xCE</span>, <span class='number'>0xB5</span>,
-                           <span class='number'>0xCF</span>, <span class='number'>0x84</span>, <span class='number'>0xCE</span>, <span class='number'>0xB5</span>];
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>codepoints</span> <span class='op'>=</span> <span class='ident'>CodePoints</span>::<span class='ident'>from</span>(<span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>greek_bytes</span>));
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&#39;Χ&#39;</span>, <span class='string'>&#39;α&#39;</span>, <span class='string'>&#39;ί&#39;</span>, <span class='string'>&#39;ρ&#39;</span>, <span class='string'>&#39;ε&#39;</span>, <span class='string'>&#39;τ&#39;</span>, <span class='string'>&#39;ε&#39;</span>],
-                <span class='ident'>codepoints</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span>.<span class='ident'>unwrap</span>())
-                          .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>());
+    <span class="kw">let</span> <span class="ident">greek_bytes</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0xCE</span>, <span class="number">0xA7</span>, <span class="number">0xCE</span>, <span class="number">0xB1</span>, <span class="number">0xCE</span>, <span class="number">0xAF</span>, <span class="number">0xCF</span>, <span class="number">0x81</span>, <span class="number">0xCE</span>, <span class="number">0xB5</span>,
+                           <span class="number">0xCF</span>, <span class="number">0x84</span>, <span class="number">0xCE</span>, <span class="number">0xB5</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codepoints</span> <span class="op">=</span> <span class="ident">CodePoints</span>::<span class="ident">from</span>(<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">greek_bytes</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&#39;Χ&#39;</span>, <span class="string">&#39;α&#39;</span>, <span class="string">&#39;ί&#39;</span>, <span class="string">&#39;ρ&#39;</span>, <span class="string">&#39;ε&#39;</span>, <span class="string">&#39;τ&#39;</span>, <span class="string">&#39;ε&#39;</span>],
+                <span class="ident">codepoints</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">unwrap</span>())
+                          .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">char</span><span class="op">&gt;&gt;</span>());
 }</pre>
 
 <p><a href="https://github.com/wfraser/rust_unicode_reader">Repository</a></p>
@@ -88,23 +88,23 @@ yields the graphemes or code points as it reads them.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.BadUtf8Error.html'
-                                  title='unicode_reader::BadUtf8Error'>BadUtf8Error</a></td>
+                           <td><a class="struct" href="struct.BadUtf8Error.html"
+                                  title='struct unicode_reader::BadUtf8Error'>BadUtf8Error</a></td>
                            <td class='docblock-short'>
                                 <p>An error raised when parsing a UTF-8 byte stream fails.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.CodePoints.html'
-                                  title='unicode_reader::CodePoints'>CodePoints</a></td>
+                           <td><a class="struct" href="struct.CodePoints.html"
+                                  title='struct unicode_reader::CodePoints'>CodePoints</a></td>
                            <td class='docblock-short'>
                                 <p>Wraps a byte-oriented reader and yields the UTF-8 data one code point at a time.
 Any UTF-8 parsing errors are raised as <code>io::Error</code> with <code>ErrorKind::InvalidData</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Graphemes.html'
-                                  title='unicode_reader::Graphemes'>Graphemes</a></td>
+                           <td><a class="struct" href="struct.Graphemes.html"
+                                  title='struct unicode_reader::Graphemes'>Graphemes</a></td>
                            <td class='docblock-short'>
                                 <p>Wraps a <code>char</code>-oriented reader and yields the data one Unicode grapheme cluster at a time.</p>
                            </td>
