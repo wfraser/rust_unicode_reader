@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/unicode-segmentation-1.2.0/src/grapheme.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/unicode-segmentation-1.2.1/src/grapheme.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>grapheme.rs.html -- source</title>
@@ -715,6 +715,49 @@
 <span id="659">659</span>
 <span id="660">660</span>
 <span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2012-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class="comment">// file at the top-level directory of this distribution and at</span>
@@ -1078,7 +1121,10 @@
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span> {
             <span class="ident">GraphemeState</span>::<span class="ident">Regional</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">handle_regional</span>(<span class="ident">chunk</span>, <span class="ident">chunk_start</span>),
             <span class="ident">GraphemeState</span>::<span class="ident">Emoji</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">handle_emoji</span>(<span class="ident">chunk</span>, <span class="ident">chunk_start</span>),
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;invalid state&quot;</span>)
+            _ <span class="op">=&gt;</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">cat_before</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">==</span> <span class="ident">chunk</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">chunk_start</span> {
+                <span class="kw">let</span> <span class="ident">ch</span> <span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">chars</span>().<span class="ident">rev</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>();
+                <span class="self">self</span>.<span class="ident">cat_before</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">gr</span>::<span class="ident">grapheme_category</span>(<span class="ident">ch</span>));
+            },
         }
     }
 
@@ -1124,6 +1170,7 @@
             <span class="kw">return</span>;
         }
         <span class="self">self</span>.<span class="ident">pre_context_offset</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">chunk_start</span>);
+        <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">GraphemeState</span>::<span class="ident">Regional</span>;
     }
 
     <span class="kw">fn</span> <span class="ident">handle_emoji</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">chunk</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">chunk_start</span>: <span class="ident">usize</span>) {
@@ -1146,6 +1193,7 @@
             <span class="kw">return</span>;
         }
         <span class="self">self</span>.<span class="ident">pre_context_offset</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">chunk_start</span>);
+        <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">GraphemeState</span>::<span class="ident">Emoji</span>;
     }
 
     <span class="doccomment">/// Determine whether the current cursor location is a grapheme cluster boundary.</span>
@@ -1342,6 +1390,9 @@
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
         }
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">==</span> <span class="ident">chunk_start</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">GraphemeIncomplete</span>::<span class="ident">PrevChunk</span>);
+        }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">chunk</span>[..<span class="self">self</span>.<span class="ident">offset</span> <span class="op">-</span> <span class="ident">chunk_start</span>].<span class="ident">chars</span>().<span class="ident">rev</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ch</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
         <span class="kw">loop</span> {
@@ -1365,6 +1416,7 @@
                     <span class="self">self</span>.<span class="ident">decide</span>(<span class="bool-val">true</span>);
                 } <span class="kw">else</span> {
                     <span class="self">self</span>.<span class="ident">resuming</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                    <span class="self">self</span>.<span class="ident">cat_after</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">gr</span>::<span class="ident">grapheme_category</span>(<span class="ident">ch</span>));
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">GraphemeIncomplete</span>::<span class="ident">PrevChunk</span>);
                 }
             }
@@ -1376,6 +1428,40 @@
             <span class="self">self</span>.<span class="ident">resuming</span> <span class="op">=</span> <span class="bool-val">false</span>;
         }
     }
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_grapheme_cursor_ris_precontext</span>() {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;\u{1f1fa}\u{1f1f8}\u{1f1fa}\u{1f1f8}\u{1f1fa}\u{1f1f8}&quot;</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">GraphemeCursor</span>::<span class="ident">new</span>(<span class="number">8</span>, <span class="ident">s</span>.<span class="ident">len</span>(), <span class="bool-val">true</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">is_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">4</span>..], <span class="number">4</span>), <span class="prelude-val">Err</span>(<span class="ident">GraphemeIncomplete</span>::<span class="ident">PreContext</span>(<span class="number">4</span>)));
+    <span class="ident">c</span>.<span class="ident">provide_context</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[..<span class="number">4</span>], <span class="number">0</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">is_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">4</span>..], <span class="number">4</span>), <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>));
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_grapheme_cursor_chunk_start_require_precontext</span>() {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;\r\n&quot;</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">GraphemeCursor</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="ident">s</span>.<span class="ident">len</span>(), <span class="bool-val">true</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">is_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..], <span class="number">1</span>), <span class="prelude-val">Err</span>(<span class="ident">GraphemeIncomplete</span>::<span class="ident">PreContext</span>(<span class="number">1</span>)));
+    <span class="ident">c</span>.<span class="ident">provide_context</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[..<span class="number">1</span>], <span class="number">0</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">is_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..], <span class="number">1</span>), <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>));
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_grapheme_cursor_prev_boundary</span>() {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;abcd&quot;</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">GraphemeCursor</span>::<span class="ident">new</span>(<span class="number">3</span>, <span class="ident">s</span>.<span class="ident">len</span>(), <span class="bool-val">true</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">prev_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..], <span class="number">2</span>), <span class="prelude-val">Err</span>(<span class="ident">GraphemeIncomplete</span>::<span class="ident">PrevChunk</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">prev_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[..<span class="number">2</span>], <span class="number">0</span>), <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>)));
+}
+
+<span class="attribute">#[<span class="ident">test</span>]</span>
+<span class="kw">fn</span> <span class="ident">test_grapheme_cursor_prev_boundary_chunk_start</span>() {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;abcd&quot;</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">GraphemeCursor</span>::<span class="ident">new</span>(<span class="number">2</span>, <span class="ident">s</span>.<span class="ident">len</span>(), <span class="bool-val">true</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">prev_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">2</span>..], <span class="number">2</span>), <span class="prelude-val">Err</span>(<span class="ident">GraphemeIncomplete</span>::<span class="ident">PrevChunk</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">c</span>.<span class="ident">prev_boundary</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[..<span class="number">2</span>], <span class="number">0</span>), <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="number">1</span>)));
 }
 </pre>
 </section>
