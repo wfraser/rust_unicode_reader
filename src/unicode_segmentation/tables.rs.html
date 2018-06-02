@@ -10,10 +10,11 @@
     <title>tables.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -1414,7 +1415,7 @@
         <span class="kw">match</span> <span class="ident">c</span> {
             <span class="string">&#39;a&#39;</span> ... <span class="string">&#39;z&#39;</span> <span class="op">|</span> <span class="string">&#39;A&#39;</span> ... <span class="string">&#39;Z&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
             <span class="ident">c</span> <span class="kw">if</span> <span class="ident">c</span> <span class="op">&gt;</span> <span class="string">&#39;&#39;</span> <span class="op">=&gt;</span> <span class="kw">super</span>::<span class="ident">derived_property</span>::<span class="ident">Alphabetic</span>(<span class="ident">c</span>),
-            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
@@ -1423,7 +1424,7 @@
         <span class="kw">match</span> <span class="ident">c</span> {
             <span class="string">&#39;0&#39;</span> ... <span class="string">&#39;9&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
             <span class="ident">c</span> <span class="kw">if</span> <span class="ident">c</span> <span class="op">&gt;</span> <span class="string">&#39;&#39;</span> <span class="op">=&gt;</span> <span class="kw">super</span>::<span class="ident">general_category</span>::<span class="ident">N</span>(<span class="ident">c</span>),
-            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
@@ -1699,16 +1700,16 @@
 
     <span class="kw">fn</span> <span class="ident">bsearch_range_value_table</span>(<span class="ident">c</span>: <span class="ident">char</span>, <span class="ident">r</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [(<span class="ident">char</span>, <span class="ident">char</span>, <span class="ident">GraphemeCat</span>)]) <span class="op">-&gt;</span> <span class="ident">GraphemeCat</span> {
         <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>::{<span class="ident">Equal</span>, <span class="ident">Less</span>, <span class="ident">Greater</span>};
-        <span class="kw">match</span> <span class="ident">r</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">lo</span>, <span class="ident">hi</span>, _)<span class="op">|</span> {
+        <span class="kw">match</span> <span class="ident">r</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">lo</span>, <span class="ident">hi</span>, <span class="kw">_</span>)<span class="op">|</span> {
             <span class="kw">if</span> <span class="ident">lo</span> <span class="op">&lt;=</span> <span class="ident">c</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span> <span class="op">&lt;=</span> <span class="ident">hi</span> { <span class="ident">Equal</span> }
             <span class="kw">else</span> <span class="kw">if</span> <span class="ident">hi</span> <span class="op">&lt;</span> <span class="ident">c</span> { <span class="ident">Less</span> }
             <span class="kw">else</span> { <span class="ident">Greater</span> }
         }) {
             <span class="prelude-val">Ok</span>(<span class="ident">idx</span>) <span class="op">=&gt;</span> {
-                <span class="kw">let</span> (_, _, <span class="ident">cat</span>) <span class="op">=</span> <span class="ident">r</span>[<span class="ident">idx</span>];
+                <span class="kw">let</span> (<span class="kw">_</span>, <span class="kw">_</span>, <span class="ident">cat</span>) <span class="op">=</span> <span class="ident">r</span>[<span class="ident">idx</span>];
                 <span class="ident">cat</span>
             }
-            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">GC_Any</span>
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">GC_Any</span>
         }
     }
 
@@ -2282,16 +2283,16 @@
 
     <span class="kw">fn</span> <span class="ident">bsearch_range_value_table</span>(<span class="ident">c</span>: <span class="ident">char</span>, <span class="ident">r</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [(<span class="ident">char</span>, <span class="ident">char</span>, <span class="ident">WordCat</span>)]) <span class="op">-&gt;</span> <span class="ident">WordCat</span> {
         <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>::{<span class="ident">Equal</span>, <span class="ident">Less</span>, <span class="ident">Greater</span>};
-        <span class="kw">match</span> <span class="ident">r</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">lo</span>, <span class="ident">hi</span>, _)<span class="op">|</span> {
+        <span class="kw">match</span> <span class="ident">r</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">lo</span>, <span class="ident">hi</span>, <span class="kw">_</span>)<span class="op">|</span> {
             <span class="kw">if</span> <span class="ident">lo</span> <span class="op">&lt;=</span> <span class="ident">c</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span> <span class="op">&lt;=</span> <span class="ident">hi</span> { <span class="ident">Equal</span> }
             <span class="kw">else</span> <span class="kw">if</span> <span class="ident">hi</span> <span class="op">&lt;</span> <span class="ident">c</span> { <span class="ident">Less</span> }
             <span class="kw">else</span> { <span class="ident">Greater</span> }
         }) {
             <span class="prelude-val">Ok</span>(<span class="ident">idx</span>) <span class="op">=&gt;</span> {
-                <span class="kw">let</span> (_, _, <span class="ident">cat</span>) <span class="op">=</span> <span class="ident">r</span>[<span class="ident">idx</span>];
+                <span class="kw">let</span> (<span class="kw">_</span>, <span class="kw">_</span>, <span class="ident">cat</span>) <span class="op">=</span> <span class="ident">r</span>[<span class="ident">idx</span>];
                 <span class="ident">cat</span>
             }
-            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">WC_Any</span>
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">WC_Any</span>
         }
     }
 

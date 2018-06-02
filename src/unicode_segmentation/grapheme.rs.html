@@ -10,10 +10,11 @@
     <title>grapheme.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -980,12 +981,12 @@
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">PairResult</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> (<span class="ident">before</span>, <span class="ident">after</span>) {
         (<span class="ident">GC_CR</span>, <span class="ident">GC_LF</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB3</span>
-        (<span class="ident">GC_Control</span>, _) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB4</span>
-        (<span class="ident">GC_CR</span>, _) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB4</span>
-        (<span class="ident">GC_LF</span>, _) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB4</span>
-        (_, <span class="ident">GC_Control</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB5</span>
-        (_, <span class="ident">GC_CR</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB5</span>
-        (_, <span class="ident">GC_LF</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB5</span>
+        (<span class="ident">GC_Control</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB4</span>
+        (<span class="ident">GC_CR</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB4</span>
+        (<span class="ident">GC_LF</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB4</span>
+        (<span class="kw">_</span>, <span class="ident">GC_Control</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB5</span>
+        (<span class="kw">_</span>, <span class="ident">GC_CR</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB5</span>
+        (<span class="kw">_</span>, <span class="ident">GC_LF</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB5</span>
         (<span class="ident">GC_L</span>, <span class="ident">GC_L</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB6</span>
         (<span class="ident">GC_L</span>, <span class="ident">GC_V</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB6</span>
         (<span class="ident">GC_L</span>, <span class="ident">GC_LV</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB6</span>
@@ -996,17 +997,17 @@
         (<span class="ident">GC_V</span>, <span class="ident">GC_T</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB7</span>
         (<span class="ident">GC_LVT</span>, <span class="ident">GC_T</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB8</span>
         (<span class="ident">GC_T</span>, <span class="ident">GC_T</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB8</span>
-        (_, <span class="ident">GC_Extend</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>, <span class="comment">// GB9</span>
-        (_, <span class="ident">GC_ZWJ</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB9</span>
-        (_, <span class="ident">GC_SpacingMark</span>) <span class="op">=&gt;</span> <span class="ident">Extended</span>,  <span class="comment">// GB9a</span>
-        (<span class="ident">GC_Prepend</span>, _) <span class="op">=&gt;</span> <span class="ident">Extended</span>,  <span class="comment">// GB9b</span>
+        (<span class="kw">_</span>, <span class="ident">GC_Extend</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>, <span class="comment">// GB9</span>
+        (<span class="kw">_</span>, <span class="ident">GC_ZWJ</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB9</span>
+        (<span class="kw">_</span>, <span class="ident">GC_SpacingMark</span>) <span class="op">=&gt;</span> <span class="ident">Extended</span>,  <span class="comment">// GB9a</span>
+        (<span class="ident">GC_Prepend</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Extended</span>,  <span class="comment">// GB9b</span>
         (<span class="ident">GC_E_Base</span>, <span class="ident">GC_E_Modifier</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB10</span>
         (<span class="ident">GC_E_Base_GAZ</span>, <span class="ident">GC_E_Modifier</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB10</span>
         (<span class="ident">GC_Extend</span>, <span class="ident">GC_E_Modifier</span>) <span class="op">=&gt;</span> <span class="ident">Emoji</span>,  <span class="comment">// GB10</span>
         (<span class="ident">GC_ZWJ</span>, <span class="ident">GC_Glue_After_Zwj</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB11</span>
         (<span class="ident">GC_ZWJ</span>, <span class="ident">GC_E_Base_GAZ</span>) <span class="op">=&gt;</span> <span class="ident">NotBreak</span>,  <span class="comment">// GB11</span>
         (<span class="ident">GC_Regional_Indicator</span>, <span class="ident">GC_Regional_Indicator</span>) <span class="op">=&gt;</span> <span class="ident">Regional</span>,  <span class="comment">// GB12, GB13</span>
-        (_, _) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB999</span>
+        (<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Break</span>,  <span class="comment">// GB999</span>
     }
 }
 
@@ -1121,7 +1122,7 @@
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span> {
             <span class="ident">GraphemeState</span>::<span class="ident">Regional</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">handle_regional</span>(<span class="ident">chunk</span>, <span class="ident">chunk_start</span>),
             <span class="ident">GraphemeState</span>::<span class="ident">Emoji</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">handle_emoji</span>(<span class="ident">chunk</span>, <span class="ident">chunk_start</span>),
-            _ <span class="op">=&gt;</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">cat_before</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">==</span> <span class="ident">chunk</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">chunk_start</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">cat_before</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">==</span> <span class="ident">chunk</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">chunk_start</span> {
                 <span class="kw">let</span> <span class="ident">ch</span> <span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">chars</span>().<span class="ident">rev</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>();
                 <span class="self">self</span>.<span class="ident">cat_before</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">gr</span>::<span class="ident">grapheme_category</span>(<span class="ident">ch</span>));
             },
@@ -1182,7 +1183,7 @@
                     <span class="self">self</span>.<span class="ident">decide</span>(<span class="bool-val">false</span>);
                     <span class="kw">return</span>;
                 }
-                _ <span class="op">=&gt;</span> {
+                <span class="kw">_</span> <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">decide</span>(<span class="bool-val">true</span>);
                     <span class="kw">return</span>;
                 }
@@ -1245,7 +1246,7 @@
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">cat_after</span>.<span class="ident">unwrap</span>() {
                 <span class="ident">gr</span>::<span class="ident">GC_Regional_Indicator</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">GraphemeState</span>::<span class="ident">Regional</span>,
                 <span class="ident">gr</span>::<span class="ident">GC_E_Modifier</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">GraphemeState</span>::<span class="ident">Emoji</span>,
-                _ <span class="op">=&gt;</span> <span class="ident">need_pre_context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">cat_before</span>.<span class="ident">is_none</span>(),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">need_pre_context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">cat_before</span>.<span class="ident">is_none</span>(),
             }
             <span class="kw">if</span> <span class="ident">need_pre_context</span> {
                 <span class="self">self</span>.<span class="ident">pre_context_offset</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">chunk_start</span>);

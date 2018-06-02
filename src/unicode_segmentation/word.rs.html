@@ -10,10 +10,11 @@
     <title>word.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -863,7 +864,7 @@
             <span class="comment">// if there&#39;s a category cached, grab it</span>
             <span class="ident">cat</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">cat</span> {
                 <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">wd</span>::<span class="ident">word_category</span>(<span class="ident">ch</span>),
-                _ <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">cat</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>()
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">cat</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>()
             };
             <span class="ident">take_cat</span> <span class="op">=</span> <span class="bool-val">true</span>;
 
@@ -880,7 +881,7 @@
                     <span class="ident">wd</span>::<span class="ident">WC_Extend</span> <span class="op">|</span> <span class="ident">wd</span>::<span class="ident">WC_Format</span> <span class="op">|</span> <span class="ident">wd</span>::<span class="ident">WC_ZWJ</span> <span class="op">=&gt;</span> {
                         <span class="kw">continue</span>
                     }
-                    _ <span class="op">=&gt;</span> {}
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {}
                 }
             }
 
@@ -907,7 +908,7 @@
                         <span class="ident">state</span> <span class="op">=</span> <span class="ident">Emoji</span>;
                         <span class="kw">continue</span>;
                     },
-                    _ <span class="op">=&gt;</span> ()
+                    <span class="kw">_</span> <span class="op">=&gt;</span> ()
                 }
             }
             <span class="comment">// Don&#39;t use `continue` in this match without updating `cat`</span>
@@ -915,7 +916,7 @@
                 <span class="ident">Start</span> <span class="kw">if</span> <span class="ident">cat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_CR</span> <span class="op">=&gt;</span> {
                     <span class="ident">idx</span> <span class="op">+=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_next_cat</span>(<span class="ident">idx</span>) {
                         <span class="prelude-val">Some</span>(<span class="ident">ncat</span>) <span class="kw">if</span> <span class="ident">ncat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_LF</span> <span class="op">=&gt;</span> <span class="number">1</span>,       <span class="comment">// rule WB3</span>
-                        _ <span class="op">=&gt;</span> <span class="number">0</span>
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">0</span>
                     };
                     <span class="kw">break</span>;                                          <span class="comment">// rule WB3a</span>
                 },
@@ -929,7 +930,7 @@
                     <span class="ident">wd</span>::<span class="ident">WC_LF</span> <span class="op">|</span> <span class="ident">wd</span>::<span class="ident">WC_Newline</span> <span class="op">=&gt;</span> <span class="kw">break</span>,    <span class="comment">// rule WB3a</span>
                     <span class="ident">wd</span>::<span class="ident">WC_ZWJ</span> <span class="op">=&gt;</span> <span class="ident">Zwj</span>,                      <span class="comment">// rule WB3c</span>
                     <span class="ident">wd</span>::<span class="ident">WC_E_Base</span> <span class="op">|</span> <span class="ident">wd</span>::<span class="ident">WC_E_Base_GAZ</span> <span class="op">=&gt;</span> <span class="ident">Emoji</span>, <span class="comment">// rule WB14</span>
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ncat</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_next_cat</span>(<span class="ident">idx</span>) {                <span class="comment">// rule WB4</span>
                             <span class="kw">if</span> <span class="ident">ncat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_Format</span> <span class="op">||</span> <span class="ident">ncat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_Extend</span> <span class="op">||</span> <span class="ident">ncat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_ZWJ</span> {
                                 <span class="ident">state</span> <span class="op">=</span> <span class="ident">FormatExtend</span>(<span class="ident">AcceptNone</span>);
@@ -965,7 +966,7 @@
                         <span class="ident">saveidx</span> <span class="op">=</span> <span class="ident">idx</span>;
                         <span class="ident">FormatExtend</span>(<span class="ident">RequireLetter</span>)                         <span class="comment">// rule WB6</span>
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -980,7 +981,7 @@
                         <span class="ident">saveidx</span> <span class="op">=</span> <span class="ident">idx</span>;
                         <span class="ident">FormatExtend</span>(<span class="ident">RequireNumeric</span>)            <span class="comment">// rule WB12</span>
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -988,7 +989,7 @@
                 <span class="ident">Katakana</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">cat</span> {
                     <span class="ident">wd</span>::<span class="ident">WC_Katakana</span> <span class="op">=&gt;</span> <span class="ident">Katakana</span>,                <span class="comment">// rule WB13</span>
                     <span class="ident">wd</span>::<span class="ident">WC_ExtendNumLet</span> <span class="op">=&gt;</span> <span class="ident">ExtendNumLet</span>,        <span class="comment">// rule WB13a</span>
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -999,7 +1000,7 @@
                     <span class="ident">wd</span>::<span class="ident">WC_Hebrew_Letter</span> <span class="op">=&gt;</span> <span class="ident">HLetter</span>,            <span class="comment">// rule WB13b</span>
                     <span class="ident">wd</span>::<span class="ident">WC_Numeric</span> <span class="op">=&gt;</span> <span class="ident">Numeric</span>,                  <span class="comment">// rule WB13b</span>
                     <span class="ident">wd</span>::<span class="ident">WC_Katakana</span> <span class="op">=&gt;</span> <span class="ident">Katakana</span>,                <span class="comment">// rule WB13b</span>
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1013,15 +1014,15 @@
                 }
                 <span class="ident">Regional</span>(<span class="ident">RegionalState</span>::<span class="ident">Half</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">cat</span> {
                     <span class="ident">wd</span>::<span class="ident">WC_Regional_Indicator</span> <span class="op">=&gt;</span> <span class="ident">Regional</span>(<span class="ident">RegionalState</span>::<span class="ident">Full</span>),      <span class="comment">// rule WB13c</span>
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
                 },
-                <span class="ident">Regional</span>(_) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;RegionalState::Unknown should not occur on forward iteration&quot;</span>),
+                <span class="ident">Regional</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;RegionalState::Unknown should not occur on forward iteration&quot;</span>),
                 <span class="ident">Emoji</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">cat</span> {                            <span class="comment">// rule WB14</span>
                     <span class="ident">wd</span>::<span class="ident">WC_E_Modifier</span> <span class="op">=&gt;</span> <span class="ident">state</span>,
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1036,7 +1037,7 @@
                         <span class="ident">take_cat</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     },
-                    _ <span class="op">=&gt;</span> <span class="kw">break</span>      <span class="comment">// rewind (in if statement below)</span>
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>      <span class="comment">// rewind (in if statement below)</span>
                 }
             }
         }
@@ -1092,7 +1093,7 @@
             <span class="comment">// if there&#39;s a category cached, grab it</span>
             <span class="ident">cat</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">catb</span> {
                 <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">wd</span>::<span class="ident">word_category</span>(<span class="ident">ch</span>),
-                _ <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">catb</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>()
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">catb</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>()
             };
             <span class="ident">take_cat</span> <span class="op">=</span> <span class="bool-val">true</span>;
 
@@ -1107,8 +1108,8 @@
                 <span class="op">||</span> (<span class="ident">cat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_ZWJ</span> <span class="op">&amp;&amp;</span> <span class="ident">state</span> <span class="op">!=</span> <span class="ident">Zwj</span>) { <span class="comment">// WB3c has more priority so we should not</span>
                                                          <span class="comment">// fold in that case</span>
                 <span class="kw">if</span> <span class="kw">match</span> <span class="ident">state</span> {
-                    <span class="ident">FormatExtend</span>(_) <span class="op">|</span> <span class="ident">Start</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-                    _ <span class="op">=&gt;</span> <span class="bool-val">true</span>
+                    <span class="ident">FormatExtend</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">Start</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>
                 } {
                     <span class="ident">saveidx</span> <span class="op">=</span> <span class="ident">previdx</span>;
                     <span class="ident">savestate</span> <span class="op">=</span> <span class="ident">state</span>;
@@ -1147,7 +1148,7 @@
                             <span class="kw">if</span> <span class="ident">cat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_LF</span> {
                                 <span class="ident">idx</span> <span class="op">-=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_prev_cat</span>(<span class="ident">idx</span>) {
                                     <span class="prelude-val">Some</span>(<span class="ident">pcat</span>) <span class="kw">if</span> <span class="ident">pcat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_CR</span> <span class="op">=&gt;</span> <span class="number">1</span>,   <span class="comment">// rule WB3</span>
-                                    _ <span class="op">=&gt;</span> <span class="number">0</span>
+                                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">0</span>
                                 };
                             }
                         } <span class="kw">else</span> {
@@ -1155,13 +1156,13 @@
                         }
                         <span class="kw">break</span>;                                              <span class="comment">// rule WB3a</span>
                     },
-                    _ <span class="op">=&gt;</span> <span class="kw">break</span>                              <span class="comment">// rule WB999</span>
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>                              <span class="comment">// rule WB999</span>
                 },
                 <span class="ident">Zwj</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">cat</span> {                          <span class="comment">// rule WB3c</span>
                     <span class="ident">wd</span>::<span class="ident">WC_ZWJ</span> <span class="op">=&gt;</span> {
                         <span class="ident">FormatExtend</span>(<span class="ident">AcceptAny</span>)
                     }
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1179,7 +1180,7 @@
                         <span class="ident">saveidx</span> <span class="op">=</span> <span class="ident">previdx</span>;
                         <span class="ident">FormatExtend</span>(<span class="ident">RequireLetter</span>)          <span class="comment">// rule WB7</span>
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1193,7 +1194,7 @@
                         <span class="ident">saveidx</span> <span class="op">=</span> <span class="ident">previdx</span>;
                         <span class="ident">FormatExtend</span>(<span class="ident">RequireNumeric</span>)         <span class="comment">// rule WB11</span>
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1201,7 +1202,7 @@
                 <span class="ident">Katakana</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">cat</span> {
                     <span class="ident">wd</span>::<span class="ident">WC_Katakana</span> <span class="op">=&gt;</span> <span class="ident">Katakana</span>,            <span class="comment">// rule WB13</span>
                     <span class="ident">wd</span>::<span class="ident">WC_ExtendNumLet</span> <span class="op">=&gt;</span> <span class="ident">ExtendNumLet</span>,    <span class="comment">// rule WB13b</span>
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1212,7 +1213,7 @@
                     <span class="ident">wd</span>::<span class="ident">WC_Hebrew_Letter</span> <span class="op">=&gt;</span> <span class="ident">HLetter</span>,        <span class="comment">// rule WB13a</span>
                     <span class="ident">wd</span>::<span class="ident">WC_Numeric</span> <span class="op">=&gt;</span> <span class="ident">Numeric</span>,              <span class="comment">// rule WB13a</span>
                     <span class="ident">wd</span>::<span class="ident">WC_Katakana</span> <span class="op">=&gt;</span> <span class="ident">Katakana</span>,            <span class="comment">// rule WB13a</span>
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1240,7 +1241,7 @@
                             <span class="ident">Regional</span>(<span class="ident">RegionalState</span>::<span class="ident">Full</span>)
                         }
                     }
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1249,7 +1250,7 @@
                     <span class="ident">wd</span>::<span class="ident">WC_E_Base</span> <span class="op">|</span> <span class="ident">wd</span>::<span class="ident">WC_E_Base_GAZ</span> <span class="op">=&gt;</span> {
                         <span class="ident">Zwj</span>
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="ident">take_curr</span> <span class="op">=</span> <span class="bool-val">false</span>;
                         <span class="kw">break</span>;
                     }
@@ -1260,7 +1261,7 @@
                     <span class="ident">RequireLetter</span> <span class="kw">if</span> <span class="ident">cat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_Hebrew_Letter</span> <span class="op">=&gt;</span> <span class="ident">HLetter</span>,     <span class="comment">// rule WB6</span>
                     <span class="ident">AcceptQLetter</span> <span class="kw">if</span> <span class="ident">cat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_Hebrew_Letter</span> <span class="op">=&gt;</span> <span class="ident">HLetter</span>,     <span class="comment">// rule WB7a</span>
                     <span class="ident">RequireHLetter</span> <span class="kw">if</span> <span class="ident">cat</span> <span class="op">==</span> <span class="ident">wd</span>::<span class="ident">WC_Hebrew_Letter</span> <span class="op">=&gt;</span> <span class="ident">HLetter</span>,    <span class="comment">// rule WB7b</span>
-                    _ <span class="op">=&gt;</span> <span class="kw">break</span>  <span class="comment">// backtrack will happens</span>
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>  <span class="comment">// backtrack will happens</span>
                 }
             }
         }
