@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/wfraser/rust_unicode_reader.svg?branch=master)](https://travis-ci.org/wfraser/rust_unicode_reader)
 
-[Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)
+[Documentation](https://docs.rs/unicode_reader)
 
 Adaptors which wrap byte-oriented readers and yield the UTF-8 data as Unicode code points or
 grapheme clusters.
