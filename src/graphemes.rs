@@ -52,25 +52,16 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
                     }
                 }
             }
-            let grapheme_length_pair = {
-                let mut gi = self.buffer.grapheme_indices(true).fuse();
-                let first = gi.next();
-                let second = gi.next();
-                if first.is_some() && second.is_some() {
-                    let grapheme = first.unwrap().1.to_owned();
-                    let len = second.unwrap().0;
-                    Some((grapheme, len))
-                } else {
-                    // Until we have two graphemes, we can't be sure there won't be combining marks
-                    // ahead. Keep reading.
-                    None
-                }
-            };
-            if let Some((grapheme, length)) = grapheme_length_pair {
-                self.buffer = unsafe { self.buffer.get_unchecked(length .. self.buffer.len()) }
-                    .to_owned();
+
+            let mut gi = self.buffer.grapheme_indices(true).fuse();
+            if let (Some((_, first_grapheme)), Some((second_pos, _))) = (gi.next(), gi.next()) {
+                let grapheme = first_grapheme.to_owned();
+                self.buffer = unsafe { self.buffer.get_unchecked(second_pos ..) }.to_owned();
                 return Some(Ok(grapheme));
             }
+            // Otherwise, keep reading. We need at least the start of a second grapheme in the
+            // buffer before we know where the first one ends, because otherwise there could be
+            // additional combining marks ahead.
         }
     }
 }
