@@ -43,7 +43,7 @@
 //!
 //! [Repository](https://github.com/wfraser/rust_unicode_reader)
 //!
-//! [Documentation](https://wfraser.github.io/rust_unicode_reader/unicode_reader)
+//! [Documentation](https://docs.rs/unicode_reader)
 
 #![deny(missing_docs)]
 
