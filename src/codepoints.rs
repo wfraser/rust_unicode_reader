@@ -107,7 +107,7 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
 impl<R: Iterator<Item = io::Result<u8>>> From<R> for CodePoints<R> {
     fn from(input: R) -> CodePoints<R> {
         CodePoints {
-            input: input,
+            input,
             buffer: vec![],
         }
     }
@@ -127,7 +127,7 @@ impl Error for BadUtf8Error {
 }
 
 impl fmt::Display for BadUtf8Error {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Bad UTF-8: {:?}", self.bytes)
     }
 }

@@ -8,6 +8,7 @@ description = "Adaptors which wrap byte-oriented readers and yield the UTF-8 dat
 keywords = ["unicode", "grapheme", "codepoint", "text", "reader"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
+edition = "2018"
 
 [dependencies]
 unicode-segmentation = "1"

@@ -67,7 +67,7 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
                 }
             };
             if let Some((grapheme, length)) = grapheme_length_pair {
-                self.buffer = unsafe { self.buffer.slice_unchecked(length, self.buffer.len()) }
+                self.buffer = unsafe { self.buffer.get_unchecked(length .. self.buffer.len()) }
                     .to_owned();
                 return Some(Ok(grapheme));
             }
@@ -78,7 +78,7 @@ impl<R: Iterator<Item = io::Result<char>>> Iterator for Graphemes<R> {
 impl<R: Iterator<Item = io::Result<char>>> From<R> for Graphemes<R> {
     fn from(input: R) -> Graphemes<R> {
         Graphemes {
-            input: input,
+            input,
             buffer: String::new(),
             pending_error: None,
         }

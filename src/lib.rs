@@ -45,9 +45,7 @@
 //!
 //! [Documentation](https://docs.rs/unicode_reader)
 
-#![deny(missing_docs)]
-
-extern crate unicode_segmentation;
+#![deny(missing_docs, rust_2018_idioms)]
 
 mod codepoints;
 mod graphemes;
@@ -92,7 +90,7 @@ mod test {
                 .collect::<Vec<_>>());
     }
 
-    fn assert_badutf8err<T>(reader: &mut Iterator<Item = io::Result<T>>,
+    fn assert_badutf8err<T>(reader: &mut dyn Iterator<Item = io::Result<T>>,
                             kind: io::ErrorKind,
                             bad_bytes: Vec<u8>) {
         let result = reader.next().unwrap();
