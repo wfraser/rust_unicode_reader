@@ -11,4 +11,5 @@ readme = "README.md"
 edition = "2018"
 
 [dependencies]
+smallvec = "0.6"
 unicode-segmentation = "1"

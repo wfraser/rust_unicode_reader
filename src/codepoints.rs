@@ -9,14 +9,15 @@
 use std::error::Error;
 use std::fmt;
 use std::io;
-use std::mem;
 use std::str;
+
+use smallvec::SmallVec;
 
 /// Wraps a byte-oriented reader and yields the UTF-8 data one code point at a time.
 /// Any UTF-8 parsing errors are raised as `io::Error` with `ErrorKind::InvalidData`.
 pub struct CodePoints<R: Iterator<Item = io::Result<u8>>> {
     input: R,
-    buffer: Vec<u8>,
+    buffer: SmallVec<[u8; 4]>,
 }
 
 impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
@@ -61,17 +62,18 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                     Err(()) => {
                         // We have bad data in the buffer. Remove leading bytes until either the
                         // buffer is empty, or we have a valid code point.
-                        let mut badbytes: Vec<u8> = vec![];
+                        let mut split_point = 1;
+                        let mut badbytes = vec![];
                         loop {
-                            self.buffer = {
-                                let (first, rest) = self.buffer.split_first().unwrap();
-                                badbytes.push(*first);
-                                rest.to_owned()
-                            };
-                            if self.buffer.is_empty() || str::from_utf8(&self.buffer).is_ok() {
+                            let (bad, rest) = self.buffer.split_at(split_point);
+                            if rest.is_empty() || str::from_utf8(rest).is_ok() {
+                                badbytes.extend_from_slice(bad);
+                                self.buffer = SmallVec::from_slice(rest);
                                 break;
                             }
+                            split_point += 1;
                         }
+
                         // Raise the error. If we still have data in the buffer, it will be
                         // returned on the next loop.
                         return Some(Err(io::Error::new(io::ErrorKind::InvalidData,
@@ -89,11 +91,10 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
                         return None;
                     } else {
                         // Invalid utf-8 at end of stream.
+                        let bytes = self.buffer.to_vec();
+                        self.buffer = SmallVec::new();
                         return Some(Err(io::Error::new(io::ErrorKind::UnexpectedEof,
-                                                       BadUtf8Error {
-                                                           bytes: mem::replace(&mut self.buffer,
-                                                                               vec![]),
-                                                       })));
+                                                       BadUtf8Error { bytes })));
                     }
                 }
                 Some(Err(e)) => {
@@ -108,7 +109,7 @@ impl<R: Iterator<Item = io::Result<u8>>> From<R> for CodePoints<R> {
     fn from(input: R) -> CodePoints<R> {
         CodePoints {
             input,
-            buffer: vec![],
+            buffer: SmallVec::new(),
         }
     }
 }
