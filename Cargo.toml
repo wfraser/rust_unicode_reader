@@ -1,6 +1,6 @@
 [package]
 name = "unicode_reader"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["William R. Fraser <wfraser@codewise.org>"]
 repository = "https://github.com/wfraser/rust_unicode_reader"
 documentation = "https://docs.rs/unicode_reader/"
@@ -11,5 +11,5 @@ readme = "README.md"
 edition = "2018"
 
 [dependencies]
-smallvec = "0.6"
+smallvec = "1.4"
 unicode-segmentation = "1"
