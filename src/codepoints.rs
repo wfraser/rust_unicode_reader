@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2019 William R. Fraser
+// Copyright (c) 2016-2021 William R. Fraser
 //
 // Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
 // http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
@@ -34,52 +34,43 @@ impl<R: Iterator<Item = io::Result<u8>>> Iterator for CodePoints<R> {
         loop {
             if !self.buffer.is_empty() {
                 // See if we have a valid codepoint.
-                let maybe_codepoint = match str::from_utf8(&self.buffer) {
+                match str::from_utf8(&self.buffer) {
                     Ok(s) => {
                         let mut chars = s.chars();
                         let c = chars.next().unwrap();
-                        assert!(chars.next().is_none(),
-                                "unexpectedly got >1 code point at a time!");
-                        Ok(Some(c))
+                        if c.len_utf8() < self.buffer.len() {
+                            self.buffer = SmallVec::from_slice(&self.buffer[c.len_utf8()..]);
+                        } else {
+                            self.buffer.clear();
+                        }
+                        return Some(Ok(c));
                     }
                     Err(e) => {
                         if self.buffer.len() - e.valid_up_to() >= 4 {
                             // If we have 4 bytes that still don't make up a valid code point, then
                             // we have garbage.
-                            Err(())
-                        } else {
-                            // We probably have a partial code point. Keep reading bytes to find
-                            // out.
-                            Ok(None)
-                        }
-                    }
-                };
-                match maybe_codepoint {
-                    Ok(Some(codepoint)) => {
-                        self.buffer.clear();
-                        return Some(Ok(codepoint));
-                    }
-                    Err(()) => {
-                        // We have bad data in the buffer. Remove leading bytes until either the
-                        // buffer is empty, or we have a valid code point.
-                        let mut split_point = 1;
-                        let mut badbytes = vec![];
-                        loop {
-                            let (bad, rest) = self.buffer.split_at(split_point);
-                            if rest.is_empty() || str::from_utf8(rest).is_ok() {
-                                badbytes.extend_from_slice(bad);
-                                self.buffer = SmallVec::from_slice(rest);
-                                break;
+                            // Remove leading bytes until either the buffer is empty, or we have a
+                            // valid code point.
+                            let mut split_point = 1;
+                            let mut badbytes = vec![];
+                            loop {
+                                let (bad, rest) = self.buffer.split_at(split_point);
+                                if rest.is_empty() || str::from_utf8(rest).is_ok() {
+                                    badbytes.extend_from_slice(bad);
+                                    self.buffer = SmallVec::from_slice(rest);
+                                    break;
+                                }
+                                split_point += 1;
                             }
-                            split_point += 1;
-                        }
 
-                        // Raise the error. If we still have data in the buffer, it will be
-                        // returned on the next loop.
-                        return Some(Err(io::Error::new(io::ErrorKind::InvalidData,
-                                                       BadUtf8Error { bytes: badbytes })));
+                            // Raise the error. If we still have data in the buffer, it will be
+                            // returned on the next loop.
+                            return Some(Err(io::Error::new(io::ErrorKind::InvalidData,
+                                                           BadUtf8Error { bytes: badbytes })));
+                        }
+                        // else: We probably have a partial code point. Keep reading bytes to find
+                        // out.
                     }
-                    Ok(None) => (),
                 }
             }
             match self.input.next() {

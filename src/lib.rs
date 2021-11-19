@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2019 William R. Fraser
+// Copyright (c) 2016-2021 William R. Fraser
 //
 // Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
 // http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
@@ -169,5 +169,23 @@ mod test {
         assert_eq!("a", graphemes.next().unwrap().unwrap());
         assert_eq!("b", graphemes.next().unwrap().unwrap());
         assert!(graphemes.next().is_none());
+    }
+
+    #[test]
+    fn test_notoria() {
+        let bad = [0x80, 1, 2, 3, 4, 5, 6, 7];
+        let mut codepoints = CodePoints::from(&bad[..]);
+
+        assert_badutf8err(&mut codepoints,
+            io::ErrorKind::InvalidData,
+            vec![0x80]);
+
+        for i in 1 ..= 7 {
+            match codepoints.next() {
+                Some(Ok(c)) if c == char::from(i) => (),
+                other => panic!("at {}, expected '{:?}', found: {:?}", i, char::from(i), other),
+            }
+        }
+        assert!(codepoints.next().is_none());
     }
 }

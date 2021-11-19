@@ -1,6 +1,6 @@
 [package]
 name = "unicode_reader"
-version = "1.0.1"
+version = "1.0.2-pre"
 authors = ["William R. Fraser <wfraser@codewise.org>"]
 repository = "https://github.com/wfraser/rust_unicode_reader"
 documentation = "https://docs.rs/unicode_reader/"
